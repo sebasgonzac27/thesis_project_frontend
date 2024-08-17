@@ -5,7 +5,7 @@ import { Suspense, lazy } from 'react'
 import { Provider } from 'react-redux'
 import store from '@/redux/store'
 import RoutesWithNotFound from '@/utils/routes-with-not-found'
-import { NextUIProvider } from '@nextui-org/react'
+import { ThemeProvider } from '@/components'
 
 const Login = lazy(() => import('@/pages/Login/Login'))
 const Dashboard = lazy(() => import('@/pages/Dashboard/Dashboard'))
@@ -15,7 +15,7 @@ function App() {
   return (
     <Suspense fallback={<h1>Cargando...</h1>}>
       <Provider store={store}>
-        <NextUIProvider>
+        <ThemeProvider>
           <BrowserRouter>
             <RoutesWithNotFound>
               <Route path='/' element={<Navigate to={PrivateRoutes.DASHBOARD} />} />
@@ -27,7 +27,7 @@ function App() {
               </Route>
             </RoutesWithNotFound>
           </BrowserRouter>
-        </NextUIProvider>
+        </ThemeProvider>
       </Provider>
     </Suspense>
   )
