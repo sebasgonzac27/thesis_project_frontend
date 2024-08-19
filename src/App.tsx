@@ -4,32 +4,31 @@ import { AuthGuard } from '@/guards'
 import { Suspense, lazy } from 'react'
 import { Provider } from 'react-redux'
 import store from '@/redux/store'
-import RoutesWithNotFound from '@/utils/routes-with-not-found'
-import { ThemeProvider } from '@/components'
+import { RoutesWithNotFound } from '@/utils'
+import { Loader, ThemeProvider, Toaster } from '@/components'
 
-const Login = lazy(() => import('@/pages/Login/Login'))
-const Dashboard = lazy(() => import('@/pages/Dashboard/Dashboard'))
-const Member = lazy(() => import('@/pages/Member/Member'))
+const LoginPage = lazy(() => import('@/pages/auth/Login'))
+const Home = lazy(() => import('@/pages/Home'))
 
 function App() {
   return (
-    <Suspense fallback={<h1>Cargando...</h1>}>
-      <Provider store={store}>
-        <ThemeProvider>
+    <ThemeProvider>
+      <Toaster />
+      <Suspense fallback={<Loader />}>
+        <Provider store={store}>
           <BrowserRouter>
             <RoutesWithNotFound>
-              <Route path='/' element={<Navigate to={PrivateRoutes.DASHBOARD} />} />
-              <Route path={PublicRoutes.LOGIN} element={<Login />} />
+              <Route path='/' element={<Navigate to={PrivateRoutes.HOME} />} />
+              <Route path={PublicRoutes.LOGIN} element={<LoginPage />} />
               <Route element={<AuthGuard />}>
-                <Route path={PrivateRoutes.DASHBOARD} element={<Dashboard />} />
-                <Route path={PrivateRoutes.MEMBER} element={<Member />} />
+                <Route path={PrivateRoutes.HOME} element={<Home />} />
                 {/* Aquí se puede poner un componente que solo configure rutas privadas */}
               </Route>
             </RoutesWithNotFound>
           </BrowserRouter>
-        </ThemeProvider>
-      </Provider>
-    </Suspense>
+        </Provider>
+      </Suspense>
+    </ThemeProvider>
   )
 }
 

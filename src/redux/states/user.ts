@@ -1,16 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { UserInfo } from '../../models'
-
-export const EmptyUserState: UserInfo = {
-  id: 0,
-  name: '',
-  email: '',
-  role: '',
-}
+import { initializeUser } from '@/utils'
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: EmptyUserState,
+  initialState: (await initializeUser()) || null,
   reducers: {
     createUser: (_state, action) => {
       return action.payload
@@ -19,7 +12,7 @@ export const userSlice = createSlice({
       return { ...state, ...action.payload }
     },
     resetUser: () => {
-      return EmptyUserState
+      return null
     },
   },
 })

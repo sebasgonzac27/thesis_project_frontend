@@ -9,7 +9,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <>
       <Navbar />
-      <main className='pt-12'>
+      <main className='pt-28 max-w-7xl mx-auto px-4'>
         {children}
         <div className='fixed right-2 bottom-2'>
           <ModeToggle />

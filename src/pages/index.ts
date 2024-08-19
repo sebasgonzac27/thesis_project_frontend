@@ -1,3 +1,2 @@
-export { default as Login } from './Login/Login'
-export { default as Dashboard } from './Dashboard/Dashboard'
-export { default as Member } from './Member/Member'
+export { default as Login } from './auth/Login'
+export { default as Home } from './Home'

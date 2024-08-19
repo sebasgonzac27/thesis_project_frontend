@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,13 +8,27 @@ import {
   NavigationMenuTrigger,
 } from '../ui/navigation-menu'
 import { cn } from '@/lib/utils'
+import { Button } from '../ui/button'
+import { removeCookie } from 'typescript-cookie'
+import { useDispatch } from 'react-redux'
+import { resetUser } from '@/redux/states/user'
+import Logo from '@/assets/img/logo.webp'
 
-export default function Navbar() {
+export function Navbar() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+    removeCookie('access_token')
+    removeCookie('refresh_token')
+    dispatch(resetUser())
+    navigate('/')
+  }
+
   return (
-    <header className='bg-background text-foreground w-full h-20 shadow-sm flex items-center'>
-      <div className='m-auto w-full p-2 max-w-7xl md:p-0 flex justify-between items-center'>
+    <header className='fixed bg-background text-foreground w-full h-20 shadow-secondary shadow-md flex items-center'>
+      <div className='m-auto w-full px-4 max-w-7xl flex justify-between items-center'>
         <Link to='/'>
-          <img src='img/logo.webp' width={50} height={50} alt='Logo Club'></img>
+          <img src={Logo} width={60} height={60} alt='Logo Club'></img>
         </Link>
         <NavigationMenu>
           <NavigationMenuList>
@@ -24,8 +38,8 @@ export default function Navbar() {
                 <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
                   <li>
                     <NavigationMenuLink asChild>
-                      <a
-                        href='#'
+                      <Link
+                        to='#'
                         className={cn(
                           'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
                         )}>
@@ -33,7 +47,7 @@ export default function Navbar() {
                         <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
                           Los mejores eventos a tu disposición
                         </p>
-                      </a>
+                      </Link>
                     </NavigationMenuLink>
                   </li>
                   <li>
@@ -54,7 +68,7 @@ export default function Navbar() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Pilotos</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Líderes</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
                   <li>
@@ -89,7 +103,7 @@ export default function Navbar() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Pilotos</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Administradores</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
                   <li>
@@ -125,6 +139,7 @@ export default function Navbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+        <Button onClick={handleLogout}>Cerrar Sesión</Button>
       </div>
     </header>
   )
