@@ -13,9 +13,8 @@ import {
   TooltipTrigger,
 } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { setCookie } from 'typescript-cookie'
@@ -28,8 +27,9 @@ import { User } from '@/models'
 import { initializeUser, getValidationError } from '@/utils'
 import { PrivateRoutes } from '@/routes'
 import { AxiosError } from 'axios'
+import { useShowPassword } from '@/hooks'
 
-export function LoginForm() {
+export default function LoginForm() {
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,20 +44,7 @@ export function LoginForm() {
   const { handleSubmit, control, formState } = form
   const { errors, isSubmitting } = formState
 
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-
-  const toggleShowPassword = useCallback(() => {
-    setShowPassword(prev => !prev)
-  }, [])
-
-  const passwordProperties = useMemo(
-    () => ({
-      typeInput: showPassword ? 'text' : 'password',
-      icon: showPassword ? EyeOffIcon : EyeIcon,
-      tooltipText: showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña',
-    }),
-    [showPassword],
-  )
+  const { toggleShowPassword, passwordProperties } = useShowPassword()
 
   const buttonProperties = useMemo(
     () => ({

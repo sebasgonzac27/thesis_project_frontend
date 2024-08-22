@@ -1,4 +1,4 @@
-export function Loader() {
+export default function Loader() {
   return (
     <main className='w-full min-h-dvh flex flex-col items-center justify-center gap-2'>
       <svg

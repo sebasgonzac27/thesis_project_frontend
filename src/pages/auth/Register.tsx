@@ -1,26 +1,26 @@
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, RegisterForm } from '@/components'
 import { AuthLayout } from '@/layouts'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, LoginForm } from '@/components'
-import { Link } from 'react-router-dom'
 import { PublicRoutes } from '@/routes'
+import { Link } from 'react-router-dom'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <AuthLayout>
       <Card className='w-fit'>
         <CardHeader>
-          <CardTitle>Iniciar Sesión</CardTitle>
-          <CardDescription>Manténte actualizado sobre los eventos de tu club.</CardDescription>
+          <CardTitle>Regístrate</CardTitle>
+          <CardDescription>Llena tus datos y haz parte de esta comunidad.</CardDescription>
         </CardHeader>
         <CardContent className='space-y-2'>
-          <LoginForm />
+          <RegisterForm />
         </CardContent>
         <CardFooter className='flex flex-col'>
           <p className='mx-auto text-center'>
-            ¿No tienes una cuenta?
+            ¿Ya tienes una cuenta?
             <Link
               className='ml-2 cursor-pointer font-semibold text-primary hover:underline'
-              to={`/${PublicRoutes.REGISTER}`}>
-              Regístrate
+              to={`/${PublicRoutes.LOGIN}`}>
+              Inicia sesión
             </Link>
           </p>
         </CardFooter>

@@ -1,2 +1,3 @@
-export { default as Login } from './auth/Login'
-export { default as Home } from './Home'
+export { default as LoginPage } from './auth/Login'
+export { default as RegisterPage } from './auth/Register'
+export { default as HomePage } from './Home'

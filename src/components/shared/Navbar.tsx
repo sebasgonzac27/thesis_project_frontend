@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux'
 import { resetUser } from '@/redux/states/user'
 import Logo from '@/assets/img/logo.webp'
 
-export function Navbar() {
+export default function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleLogout = () => {

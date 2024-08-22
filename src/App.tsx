@@ -8,7 +8,8 @@ import { RoutesWithNotFound } from '@/utils'
 import { Loader, ThemeProvider, Toaster } from '@/components'
 
 const LoginPage = lazy(() => import('@/pages/auth/Login'))
-const Home = lazy(() => import('@/pages/Home'))
+const RegisterPage = lazy(() => import('@/pages/auth/Register'))
+const HomePage = lazy(() => import('@/pages/Home'))
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
             <RoutesWithNotFound>
               <Route path='/' element={<Navigate to={PrivateRoutes.HOME} />} />
               <Route path={PublicRoutes.LOGIN} element={<LoginPage />} />
+              <Route path={PublicRoutes.REGISTER} element={<RegisterPage />} />
               <Route element={<AuthGuard />}>
-                <Route path={PrivateRoutes.HOME} element={<Home />} />
+                <Route path={PrivateRoutes.HOME} element={<HomePage />} />
                 {/* Aquí se puede poner un componente que solo configure rutas privadas */}
               </Route>
             </RoutesWithNotFound>
