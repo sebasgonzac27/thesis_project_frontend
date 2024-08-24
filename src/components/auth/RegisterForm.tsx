@@ -42,13 +42,13 @@ export default function RegisterForm() {
         telephone: '',
         first_name: '',
         last_name: '',
-        nickname: '',
+        nickname: null,
         document_type: 'cédula de ciudadanía',
         document_number: '',
         rh: 'O+',
         birthdate: '',
         genre: 'masculino',
-        photo: '',
+        photo: null,
         team_id: 0,
       },
     },
@@ -82,10 +82,11 @@ export default function RegisterForm() {
 
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     try {
-      console.log('Valores: \n', values)
+      console.log('Valores: ', values)
       const result = await register(values)
       console.log(result)
     } catch (error) {
+      console.error(error)
       if (error instanceof AxiosError) {
         const errorMsg = getValidationError(error)
         setError('root', { message: errorMsg })
@@ -218,7 +219,12 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel>Apodo</FormLabel>
               <FormControl>
-                <Input placeholder='Ingrese su apodo' {...field} />
+                <Input
+                  placeholder='Ingrese su apodo'
+                  {...field}
+                  value={field.value || ''}
+                  onChange={({ target }) => (target.value !== '' ? field.onChange(target.value) : field.onChange(null))}
+                />
               </FormControl>
               <FormMessage>{errors.profile?.nickname?.message}</FormMessage>
             </FormItem>
