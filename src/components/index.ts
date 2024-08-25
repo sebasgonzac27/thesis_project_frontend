@@ -1,6 +1,8 @@
 export { default as LoginForm } from './auth/LoginForm'
 export { default as RegisterForm } from './auth/RegisterForm'
 export { default as ConfirmEmail } from './auth/ConfirmEmail'
+export { default as ForgotPassword } from './auth/ForgotPassword'
+export { default as ResetPassword } from './auth/ResetPassword'
 export { default as Loader } from './shared/Loader'
 export { default as Navbar } from './shared/Navbar'
 export { default as Icon } from './shared/Icon'

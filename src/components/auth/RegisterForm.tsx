@@ -20,12 +20,12 @@ import { useShowPassword } from '@/hooks'
 import { Team, UserStatus } from '@/models'
 import { registerSchema } from '@/schemas'
 import { getTeams, register } from '@/services'
-import { getValidationError } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SelectValue } from '@radix-ui/react-select'
 import { AxiosError } from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 export default function RegisterForm() {
@@ -82,10 +82,12 @@ export default function RegisterForm() {
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     try {
       await register(values)
+      toast.success('Usuario registrado', { description: 'Revisa tu email para validar la cuenta.' })
+      form.reset()
     } catch (error) {
+      console.error(error)
       if (error instanceof AxiosError) {
-        const errorMsg = getValidationError(error)
-        setError('root', { message: errorMsg })
+        setError('root', { message: error.response?.data.detail })
       }
     }
   }

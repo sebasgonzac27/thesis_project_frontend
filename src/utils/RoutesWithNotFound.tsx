@@ -1,3 +1,4 @@
+import { NotFoundPage } from '@/pages'
 import { ReactNode } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
@@ -9,7 +10,7 @@ export function RoutesWithNotFound({ children }: Props) {
   return (
     <Routes>
       {children}
-      <Route path='*' element={<h1>Not Found</h1>} />
+      <Route path='*' element={<NotFoundPage />} />
     </Routes>
   )
 }

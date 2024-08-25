@@ -30,14 +30,12 @@ export default function ConfirmEmail({ token }: Props) {
   }, [token])
 
   return (
-    <div className='grid place-items-center gap-3 text-center'>
+    <div className='grid place-items-center gap-3 text-center w-full max-w-2xl'>
       {isLoading ? (
         <Loader text='Validando' />
       ) : !error ? (
         <>
-          <div className='text-success'>
-            <Icon name='MailCheck' size={120} />
-          </div>
+          <Icon name='MailCheck' size={120} />
           <h1 className='text-2xl font-semibold'>¡Email validado correctamente!</h1>
           <p>Gracias por confirmar tu dirección de correo electrónico.</p>
           <Link to='/' className='text-primary underline'>
@@ -46,9 +44,7 @@ export default function ConfirmEmail({ token }: Props) {
         </>
       ) : (
         <>
-          <div className='text-error'>
-            <Icon name='MailX' size={120} />
-          </div>
+          <Icon name='MailX' size={120} />
           <h1 className='text-2xl font-semibold'>Error al validar el email</h1>
           <p>{error}</p>
         </>

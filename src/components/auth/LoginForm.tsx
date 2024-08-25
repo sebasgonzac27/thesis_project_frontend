@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux'
 import { createUser } from '@/redux/states/user'
 import { User } from '@/models'
 import { initializeUser } from '@/utils'
-import { PrivateRoutes } from '@/routes'
+import { PrivateRoutes, PublicRoutes } from '@/routes'
 import { useShowPassword } from '@/hooks'
 import { AxiosError } from 'axios'
 
@@ -106,7 +106,8 @@ export default function LoginForm() {
                           type='button'
                           variant='ghost'
                           className='absolute right-0 top-1/2 w-fit -translate-y-1/2 -scale-90 cursor-pointer text-primary hover:text-primary'
-                          onClick={toggleShowPassword}>
+                          onClick={toggleShowPassword}
+                          tabIndex={-1}>
                           <passwordProperties.icon />
                         </Button>
                       </TooltipTrigger>
@@ -121,7 +122,7 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Link className='w-fit text-start text-sm hover:text-primary' to='#'>
+        <Link className='w-fit text-start text-sm hover:text-primary' to={`/${PublicRoutes.FORGOT_PASSWORD}`}>
           ¿Olvidaste tu contraseña?
         </Link>
         <Button className='mt-4 w-full' disabled={buttonProperties.disabled}>

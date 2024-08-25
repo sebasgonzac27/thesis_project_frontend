@@ -46,3 +46,17 @@ export const registerSchema = z
     message: 'Las contraseñas no coinciden',
     path: ['confirm_password'],
   })
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email({ message: 'El correo no es válido' }).min(1, 'El correo electrónico es requerido'),
+})
+
+export const resetPasswordSchema = z
+  .object({
+    new_password: passwordSchema,
+    confirm_password: z.string().min(1, 'La confirmación de la contraseña es requerida'),
+  })
+  .refine(data => data.new_password === data.confirm_password, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirm_password'],
+  })
