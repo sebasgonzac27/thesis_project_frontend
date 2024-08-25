@@ -1,6 +1,10 @@
-export default function Loader() {
+interface Props {
+  text: string
+}
+
+export default function Loader({ text }: Props) {
   return (
-    <main className='w-full min-h-dvh flex flex-col items-center justify-center gap-2'>
+    <div className='flex flex-col items-center justify-center gap-2'>
       <svg
         aria-hidden='true'
         className='w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-primary'
@@ -16,7 +20,7 @@ export default function Loader() {
           fill='currentFill'
         />
       </svg>
-      <span className='text-xl font-semibold'>Cargando...</span>
-    </main>
+      <span className='text-xl font-semibold'>{text}...</span>
+    </div>
   )
 }

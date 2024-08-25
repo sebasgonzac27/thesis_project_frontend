@@ -25,7 +25,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className='fixed bg-background text-foreground w-full h-20 shadow-secondary shadow-md flex items-center'>
+    <header className='fixed bg-background text-foreground w-full h-20 border-b-2 border-accent flex items-center'>
       <div className='m-auto w-full px-4 max-w-7xl flex justify-between items-center'>
         <Link to='/'>
           <img src={Logo} width={60} height={60} alt='Logo Club'></img>

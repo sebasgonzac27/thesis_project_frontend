@@ -18,16 +18,15 @@ import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { setCookie } from 'typescript-cookie'
-
 import { loginSchema } from '@/schemas'
 import { login } from '@/services'
 import { useDispatch } from 'react-redux'
 import { createUser } from '@/redux/states/user'
 import { User } from '@/models'
-import { initializeUser, getValidationError } from '@/utils'
+import { initializeUser } from '@/utils'
 import { PrivateRoutes } from '@/routes'
-import { AxiosError } from 'axios'
 import { useShowPassword } from '@/hooks'
+import { AxiosError } from 'axios'
 
 export default function LoginForm() {
   const navigate = useNavigate()
@@ -67,8 +66,10 @@ export default function LoginForm() {
       dispatch(createUser(user as User))
       navigate(`/${PrivateRoutes.HOME}`)
     } catch (error) {
-      const errorMsg = getValidationError(error as AxiosError)
-      form.setError('root', { message: errorMsg })
+      if (error instanceof AxiosError) {
+        console.error(error)
+        form.setError('root', { message: error.response?.data.detail })
+      }
     }
   }
 

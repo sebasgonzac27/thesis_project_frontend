@@ -1,6 +1,8 @@
 import { refreshToken } from '@/services'
 import axios from 'axios'
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
+import { getValidationError } from './get-validation-error'
+import { toast } from 'sonner'
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -43,8 +45,6 @@ api.interceptors.response.use(
         setCookie('access_token', data.access_token)
         setCookie('refresh_token', data.refresh_token)
 
-        console.log('Token refreshed')
-
         // Reintentar la solicitud original
         originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`
         return api(originalRequest)
@@ -58,6 +58,8 @@ api.interceptors.response.use(
       }
     }
     // Si no es un error de 401, rechazar la promesa
+    const errorMsg = getValidationError(error)
+    toast.error(errorMsg)
     return Promise.reject(error)
   },
 )

@@ -17,3 +17,8 @@ export async function register(body: z.infer<typeof registerSchema>) {
   const { data } = await api.post('/register', body)
   return data
 }
+
+export async function confirmEmail(token: string) {
+  const { data } = await api.get(`/confirm-email/${token}`)
+  return data
+}

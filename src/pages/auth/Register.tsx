@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export default function RegisterPage() {
   return (
     <AuthLayout>
-      <Card className='w-fit'>
+      <Card className='w-full max-w-3xl'>
         <CardHeader>
           <CardTitle>Regístrate</CardTitle>
           <CardDescription>Llena tus datos y haz parte de esta comunidad.</CardDescription>
