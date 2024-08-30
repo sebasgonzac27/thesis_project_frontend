@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from '@/components'
 import { useShowPassword } from '@/hooks'
-import { Team, UserStatus } from '@/models'
+import { Team, UserRole, UserStatus } from '@/models'
 import { registerSchema } from '@/schemas'
 import { getTeams, register } from '@/services'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,7 +35,7 @@ export default function RegisterForm() {
       email: '',
       password: '',
       confirm_password: '',
-      role_id: 3,
+      role_id: UserRole.MEMBER,
       status: UserStatus.INACTIVE as string,
       profile: {
         telephone: '',

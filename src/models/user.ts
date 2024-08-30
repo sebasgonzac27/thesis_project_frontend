@@ -26,7 +26,8 @@ export interface UserProfile {
 export enum UserRole {
   UNDEFINED = -1,
   ADMIN = 1,
-  USER = 2,
+  LEADER = 2,
+  MEMBER = 3,
 }
 
 export enum UserStatus {
