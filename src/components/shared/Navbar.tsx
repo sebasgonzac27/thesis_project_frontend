@@ -28,7 +28,10 @@ const navbarItems: NavbarMenuT[] = [
     role: UserRole.MEMBER,
     items: [
       { title: 'Eventos', description: 'Los mejores eventos a tu disposición', href: '#' },
-      { title: 'Eventos', description: 'Los mejores eventos a tu disposición', href: '#' },
+      { title: 'Convenios', description: 'Aprovecha los convenios que tenemos para ti', href: '#' },
+      { title: 'Publicaciones', description: 'Publicaciones de interés para ti', href: '#' },
+      { title: 'PQRS', description: 'Peticiones, quejas, reclamos y sugerencias', href: '#' },
+      { title: 'Chatbot', description: 'Habla con nuestro chatbot y resuelve tus dudas', href: '#' },
     ],
   },
   {
@@ -39,7 +42,7 @@ const navbarItems: NavbarMenuT[] = [
   {
     title: 'Administradores',
     role: UserRole.ADMIN,
-    items: [{ title: 'Eventos', description: 'Los mejores eventos a tu disposición', href: '#' }],
+    items: [{ title: 'Equipos', description: 'Administra los equipos del club', href: `/${PrivateRoutes.TEAMS}` }],
   },
 ]
 

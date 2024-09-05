@@ -8,5 +8,5 @@ export const PublicRoutes = {
 
 export const PrivateRoutes = {
   HOME: 'home',
-  MEMBER: 'member',
+  TEAMS: 'teams',
 }

@@ -1,3 +1,4 @@
+import { Navigation } from '@/components'
 import { RootLayout } from '@/layouts'
 import { AppStore } from '@/redux/store'
 import { useSelector } from 'react-redux'
@@ -14,6 +15,7 @@ export default function HomePage() {
       </p>
       <p className='text-xl'>Nos encanta saludarte de nuevo!</p>
       <p className='text-xl'>No te pierdas las últimas noticias de tu club Nómadas Urbanos Colombia</p>
+      <Navigation />
     </RootLayout>
   )
 }
