@@ -16,11 +16,9 @@ import clsx from 'clsx'
 import { UserRole } from '@/models'
 import { NavbarMenu as NavbarMenuT } from '@/interfaces/shared/navbar'
 import NavbarMenu from './NavbarMenu'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppStore } from '@/redux/store'
 import { useState } from 'react'
 import { removeCookie } from 'typescript-cookie'
-import { resetUser } from '@/redux/states/user'
+import useUserStore from '@/store/user'
 
 const navbarItems: NavbarMenuT[] = [
   {
@@ -47,10 +45,9 @@ const navbarItems: NavbarMenuT[] = [
 ]
 
 export default function Navbar() {
-  const useStore = useSelector((state: AppStore) => state.user)
-  const dispatch = useDispatch()
+  const { user, deleteUser } = useUserStore()
   const navigate = useNavigate()
-  const { role_id } = useStore!
+  const { role_id } = user!
   const [open, setOpen] = useState(false)
 
   // Filtrado de items según el rol
@@ -64,7 +61,7 @@ export default function Navbar() {
   const handleLogout = () => {
     removeCookie('access_token')
     removeCookie('refresh_token')
-    dispatch(resetUser())
+    deleteUser()
     navigate('/')
   }
 

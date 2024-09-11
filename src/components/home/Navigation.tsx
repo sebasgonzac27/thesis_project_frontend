@@ -1,11 +1,11 @@
-import { User, UserRole } from '@/models'
-import { AppStore } from '@/redux/store'
+import { UserRole } from '@/models'
 import { PrivateRoutes } from '@/routes'
-import { useSelector } from 'react-redux'
+import useUserStore from '@/store/user'
 import { Link } from 'react-router-dom'
 
 export default function Navigation() {
-  const { role_id } = useSelector((state: AppStore) => state.user) as User
+  const { user } = useUserStore()
+  const { role_id } = user!
   return (
     <section className='mt-5 flex flex-col gap-2'>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>

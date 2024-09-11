@@ -2,8 +2,6 @@ import { BrowserRouter, Navigate, Route } from 'react-router-dom'
 import { PrivateRoutes, PublicRoutes } from '@/routes'
 import { AuthGuard, RoleGuard } from '@/guards'
 import { Suspense, lazy } from 'react'
-import { Provider } from 'react-redux'
-import store from '@/redux/store'
 import { RoutesWithNotFound } from '@/utils'
 import { ThemeProvider, Toaster } from '@/components'
 import { LoaderSuspense } from './pages'
@@ -24,26 +22,24 @@ function App() {
     <ThemeProvider>
       <Toaster position='top-right' richColors expand />
       <Suspense fallback={<LoaderSuspense />}>
-        <Provider store={store}>
-          <BrowserRouter>
-            <RoutesWithNotFound>
-              <Route path='/' element={<Navigate to={PrivateRoutes.HOME} />} />
-              {/* Aquí se pueden poner rutas públicas */}
-              <Route path={PublicRoutes.LOGIN} element={<LoginPage />} />
-              <Route path={PublicRoutes.REGISTER} element={<RegisterPage />} />
-              <Route path={`${PublicRoutes.CONFIRM_EMAIL}/:token`} element={<ConfirmEmailPage />} />
-              <Route path={PublicRoutes.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-              <Route path={`${PublicRoutes.RESET_PASSWORD}/:token`} element={<ResetPasswordPage />} />
-              <Route element={<AuthGuard />}>
-                <Route path={PrivateRoutes.HOME} element={<HomePage />} />
-                <Route element={<RoleGuard role={UserRole.ADMIN} />}>
-                  <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
-                </Route>
-                {/* Aquí se puede poner un componente que solo configure rutas privadas */}
+        <BrowserRouter>
+          <RoutesWithNotFound>
+            <Route path='/' element={<Navigate to={PrivateRoutes.HOME} />} />
+            {/* Aquí se pueden poner rutas públicas */}
+            <Route path={PublicRoutes.LOGIN} element={<LoginPage />} />
+            <Route path={PublicRoutes.REGISTER} element={<RegisterPage />} />
+            <Route path={`${PublicRoutes.CONFIRM_EMAIL}/:token`} element={<ConfirmEmailPage />} />
+            <Route path={PublicRoutes.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+            <Route path={`${PublicRoutes.RESET_PASSWORD}/:token`} element={<ResetPasswordPage />} />
+            <Route element={<AuthGuard />}>
+              <Route path={PrivateRoutes.HOME} element={<HomePage />} />
+              <Route element={<RoleGuard role={UserRole.ADMIN} />}>
+                <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               </Route>
-            </RoutesWithNotFound>
-          </BrowserRouter>
-        </Provider>
+              {/* Aquí se puede poner un componente que solo configure rutas privadas */}
+            </Route>
+          </RoutesWithNotFound>
+        </BrowserRouter>
       </Suspense>
     </ThemeProvider>
   )

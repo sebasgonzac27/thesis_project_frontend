@@ -20,13 +20,12 @@ import { z } from 'zod'
 import { setCookie } from 'typescript-cookie'
 import { loginSchema } from '@/schemas'
 import { login } from '@/services'
-import { useDispatch } from 'react-redux'
-import { createUser } from '@/redux/states/user'
 import { User } from '@/models'
 import { initializeUser } from '@/utils'
 import { PrivateRoutes, PublicRoutes } from '@/routes'
 import { useShowPassword } from '@/hooks'
 import { AxiosError } from 'axios'
+import useUserStore from '@/store/user'
 
 export default function LoginForm() {
   const navigate = useNavigate()
@@ -53,7 +52,7 @@ export default function LoginForm() {
     [isSubmitting],
   )
 
-  const dispatch = useDispatch()
+  const { setUser } = useUserStore()
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
@@ -63,7 +62,7 @@ export default function LoginForm() {
       setCookie('refresh_token', refresh_token)
 
       const user = await initializeUser()
-      dispatch(createUser(user as User))
+      setUser(user as User)
       navigate(`/${PrivateRoutes.HOME}`)
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -1,10 +1,9 @@
 import { Navigation } from '@/components'
 import { RootLayout } from '@/layouts'
-import { AppStore } from '@/redux/store'
-import { useSelector } from 'react-redux'
+import useUserStore from '@/store/user'
 
 export default function HomePage() {
-  const user = useSelector((store: AppStore) => store.user)
+  const { user } = useUserStore()
   const { profile } = user!
   const { first_name, nickname } = profile
 

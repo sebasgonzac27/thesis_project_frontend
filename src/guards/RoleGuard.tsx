@@ -1,6 +1,5 @@
-import { AppStore } from '@/redux/store'
 import { PrivateRoutes } from '@/routes'
-import { useSelector } from 'react-redux'
+import useUserStore from '@/store/user'
 import { Navigate, Outlet } from 'react-router-dom'
 
 interface Props {
@@ -8,6 +7,6 @@ interface Props {
 }
 
 export default function RoleGuard({ role }: Props) {
-  const userState = useSelector((state: AppStore) => state.user)
-  return userState?.role_id === role ? <Outlet /> : <Navigate to={PrivateRoutes.HOME} />
+  const { user } = useUserStore()
+  return user?.role_id === role ? <Outlet /> : <Navigate to={PrivateRoutes.HOME} />
 }
