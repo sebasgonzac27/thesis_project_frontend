@@ -1,4 +1,4 @@
-import { ModeToggle, Navbar } from '@/components'
+import { Navbar, Sidebar } from '@/components'
 import { ReactNode } from 'react'
 
 interface Props {
@@ -9,12 +9,8 @@ export default function RootLayout({ children }: Props) {
   return (
     <>
       <Navbar />
-      <main className='pt-28 max-w-7xl mx-auto px-4 pb-10'>
-        {children}
-        <div className='fixed right-2 bottom-2'>
-          <ModeToggle />
-        </div>
-      </main>
+      <Sidebar />
+      <main className='p-10 pt-16 md:ml-[300px] mx-auto bg-background'>{children}</main>
     </>
   )
 }
