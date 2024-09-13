@@ -1,6 +1,5 @@
 export interface User {
   id: number
-  username: string
   email: string
   role_id: UserRole
   status: UserStatus
@@ -24,14 +23,12 @@ export interface UserProfile {
 }
 
 export enum UserRole {
-  UNDEFINED = -1,
   ADMIN = 1,
   LEADER = 2,
   MEMBER = 3,
 }
 
 export enum UserStatus {
-  UNDEFINED = -1,
   ACTIVE = 'activo',
   INACTIVE = 'inactivo',
 }

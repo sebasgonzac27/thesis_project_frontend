@@ -1,5 +1,6 @@
 export * from './api'
 export * from './get-validation-error'
 export * from './initialize-user'
+export * from './local-storage'
 export * from './RoutesWithNotFound'
 export * from './token'

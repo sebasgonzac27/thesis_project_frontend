@@ -12,6 +12,7 @@ export default function Navbar() {
           <Icon name={isOpen ? 'X' : 'Menu'} />
         </Button>
       </div>
+      <span className='font-extrabold'>Nómadas Urbanos Colombia</span>
       <div className='justify-self-end w-fit'>
         <ModeToggle variant='ghost' />
       </div>
