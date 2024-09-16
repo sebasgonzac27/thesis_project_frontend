@@ -3,9 +3,10 @@ import axios from 'axios'
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
 import { getValidationError } from './get-validation-error'
 import { toast } from 'sonner'
+import { CONFIG } from '@/config'
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: CONFIG.API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
