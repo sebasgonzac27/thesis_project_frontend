@@ -12,10 +12,9 @@ const RegisterPage = lazy(() => import('@/pages/auth/Register'))
 const ConfirmEmailPage = lazy(() => import('@/pages/auth/ConfirmEmail'))
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPassword'))
-
 const HomePage = lazy(() => import('@/pages/Home'))
-
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
+const ChatbotPage = lazy(() => import('@/pages/Chatbot'))
 
 function App() {
   return (
@@ -33,7 +32,8 @@ function App() {
             <Route path={`${PublicRoutes.RESET_PASSWORD}/:token`} element={<ResetPasswordPage />} />
             <Route element={<AuthGuard />}>
               <Route path={PrivateRoutes.HOME} element={<HomePage />} />
-              <Route element={<RoleGuard role={UserRole.ADMIN} />}>
+              <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
+              <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               </Route>
               {/* Aquí se puede poner un componente que solo configure rutas privadas */}

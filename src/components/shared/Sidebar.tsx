@@ -78,21 +78,23 @@ export default function Sidebar() {
         </div>
       )}
       <div className='flex flex-col justify-between h-full'>
-        <div className='flex flex-col p-4'>
+        <div className='flex flex-col p-4 gap-2 overflow-y-auto'>
           {role_selected &&
-            SIDEBAR_ROUTES[role_selected as UserRole].map(({ icon, name, path }) => {
+            SIDEBAR_ROUTES.map(({ icon, name, path, roles }) => {
               return (
-                <NavLink
-                  key={path}
-                  to={path}
-                  className={({ isActive }) =>
-                    clsx('flex items-center gap-2 p-2 hover:bg-accent rounded-md', {
-                      'font-medium text-primary bg-accent': isActive,
-                    })
-                  }>
-                  <Icon name={icon} size={20} />
-                  <span>{name}</span>
-                </NavLink>
+                roles.includes(role_selected) && (
+                  <NavLink
+                    key={path}
+                    to={path}
+                    className={({ isActive }) =>
+                      clsx('flex items-center gap-2 p-2 hover:bg-accent rounded-md', {
+                        'font-medium text-primary bg-accent': isActive,
+                      })
+                    }>
+                    <Icon name={icon} size={20} />
+                    <span>{name}</span>
+                  </NavLink>
+                )
               )
             })}
         </div>

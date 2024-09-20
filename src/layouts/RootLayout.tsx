@@ -7,24 +7,32 @@ import {
   Navbar,
   Sidebar,
 } from '@/components'
+import { SIDEBAR_ROUTES } from '@/routes/sidebar'
 import { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useResolvedPath } from 'react-router-dom'
 
 interface Props {
+  title?: string
   children: ReactNode
-  breadcrumb?: { label: string; href: string }[]
+  withBreadcrumb?: boolean
 }
 
-export default function RootLayout({ children, breadcrumb }: Props) {
+export default function RootLayout({ title, children, withBreadcrumb = false }: Props) {
+  const { pathname } = useResolvedPath({})
+  const path = pathname.split('/').filter(Boolean)
+  const breadcrumb = ['home', ...path]
+
   return (
     <>
       <Navbar />
       <Sidebar />
-      <main className='p-8 pt-16 md:ml-[300px] mx-auto bg-background'>
-        {breadcrumb && (
-          <Breadcrumb className='mb-4'>
+      <main className='p-8 pt-16 md:ml-[300px] mx-auto bg-background flex flex-col min-h-0 h-full'>
+        {title && <h1 className='font-bold text-3xl'>{title}</h1>}
+        {withBreadcrumb && breadcrumb && (
+          <Breadcrumb className='my-4'>
             <BreadcrumbList>
-              {breadcrumb.map(({ label, href }, index) => {
+              {breadcrumb.map((href, index) => {
+                const label = SIDEBAR_ROUTES.find(route => route.path.includes(href))?.name || href
                 if (index === breadcrumb.length - 1) {
                   return (
                     <BreadcrumbItem key={index}>
@@ -35,7 +43,7 @@ export default function RootLayout({ children, breadcrumb }: Props) {
                 return (
                   <>
                     <BreadcrumbItem key={index}>
-                      <Link to={href}>{label}</Link>
+                      <Link to={`/${href}`}>{label}</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                   </>
