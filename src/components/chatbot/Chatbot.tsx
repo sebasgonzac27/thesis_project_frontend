@@ -41,6 +41,33 @@ export default function Chatbot() {
     }
   }, [messages])
 
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Función que se desplazará automáticamente al final del contenedor
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  // Ejecuta el scroll cada vez que los mensajes cambien
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  useEffect(() => {
+    const msgLocalStorage = localStorage.getItem('messages')
+    if (msgLocalStorage) {
+      setMessages(JSON.parse(msgLocalStorage))
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('messages', JSON.stringify(messages))
+    }
+  }, [messages])
+
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value)
   }
