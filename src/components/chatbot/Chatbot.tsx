@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Icon from '../shared/Icon'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -14,6 +14,32 @@ interface Message {
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([])
   const [text, setText] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  useEffect(() => {
+    const msgLocalStorage = localStorage.getItem('messages')
+    if (msgLocalStorage) {
+      setMessages(JSON.parse(msgLocalStorage))
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('messages', JSON.stringify(messages))
+    }
+  }, [messages])
 
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value)
@@ -23,14 +49,12 @@ export default function Chatbot() {
     e.preventDefault()
     if (text.trim() === '') return
 
-    // Agregamos el mensaje del usuario
     setMessages(prevMessages => [...prevMessages, { text, isUser: true }])
     setText('')
 
     try {
       const response = await sendMessage(text)
 
-      // Agregamos el mensaje de respuesta del chat
       setMessages(prevMessages => [...prevMessages, { text: response.message, isUser: false }])
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -43,26 +67,23 @@ export default function Chatbot() {
   }
 
   return (
-    <div className='flex flex-col h-full max-h-full gap-4'>
-      {/* Contenedor de mensajes */}
-      <div className='flex-grow overflow-y-auto min-h-0'>
-        <div className='flex flex-col justify-end h-full gap-2'>
-          {messages.map(({ text, isUser }, index) => (
-            <div
-              key={index}
-              className={clsx('p-2 rounded-lg max-w-md break-words', {
-                'bg-primary text-white self-end': isUser,
-                'bg-gray-200 text-black self-start': !isUser,
-              })}>
-              {text}
-            </div>
-          ))}
-        </div>
+    <div className='flex flex-col gap-2 h-screen max-h-[calc(100vh-185px)]'>
+      <div className='flex flex-1 flex-col gap-2 overflow-y-auto'>
+        {messages.map(({ text, isUser }, index) => (
+          <div
+            key={index}
+            className={clsx('p-2 rounded-lg max-w-md break-words', {
+              'bg-primary text-white self-end': isUser,
+              'bg-gray-200 text-black self-start': !isUser,
+            })}>
+            {text}
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Input y botón */}
       <form onSubmit={handleSendMessage} className='flex gap-2'>
-        <Input placeholder='Escriba su mensaje aquí' value={text} onChange={handleChangeText} className='flex-grow' />
+        <Input placeholder='Escriba su mensaje aquí' value={text} onChange={handleChangeText} />
         <Button variant='default' type='submit'>
           <Icon name='SendHorizontal' />
         </Button>
