@@ -4,66 +4,66 @@
 
 @layer base {
   :root {
-    --background: #FFFFFF;
-    --foreground: #100D0B;
-    --card: #FFFFFF;
-    --card-foreground: #100D0B;
-    --popover: #FFFFFF;
-    --popover-foreground: #100D0B;
-    --primary: #F97B0C;
-    --primary-foreground: #FBFAF3;
-    --secondary: #F3F3E8;
-    --secondary-foreground: #1B1917;
-    --muted: #F3F3E8;
-    --muted-foreground: #726F68;
-    --accent: #F3F3E8;
-    --accent-foreground: #1B1917;
-    --destructive: #E84141;
-    --destructive-foreground: #FBFAF3;
-    --border: #E4E1DB;
-    --input: #E4E1DB;
-    --ring: #F97B0C;
+    --background: #ffffff;
+    --foreground: #100d0b;
+    --card: #ffffff;
+    --card-foreground: #100d0b;
+    --popover: #ffffff;
+    --popover-foreground: #100d0b;
+    --primary: #f97b0c;
+    --primary-foreground: #fbfaf3;
+    --secondary: #f3f3e8;
+    --secondary-foreground: #1b1917;
+    --muted: #f3f3e8;
+    --muted-foreground: #726f68;
+    --accent: #f3f3e8;
+    --accent-foreground: #1b1917;
+    --destructive: #e84141;
+    --destructive-foreground: #fbfaf3;
+    --border: #e4e1db;
+    --input: #e4e1db;
+    --ring: #f97b0c;
     --radius: 0.5rem;
-    --chart-1: #E45F3A;
-    --chart-2: #1E8F86;
-    --chart-3: #253F54;
-    --chart-4: #F4C35B;
-    --chart-5: #F7B660;
-    --error: #FF3838;
-    --success: #00C48C;
-    --warning: #FFA000;
-    --info: #007AFF;
+    --chart-1: #e45f3a;
+    --chart-2: #1e8f86;
+    --chart-3: #253f54;
+    --chart-4: #f4c35b;
+    --chart-5: #f7b660;
+    --error: #ff3838;
+    --success: #00c48c;
+    --warning: #ffa000;
+    --info: #007aff;
   }
 
   .dark {
-    --background: #100D0B;
-    --foreground: #FBFAF3;
-    --card: #100D0B;
-    --card-foreground: #FBFAF3;
-    --popover: #100D0B;
-    --popover-foreground: #FBFAF3;
-    --primary: #E55E0C;
-    --primary-foreground: #FBFAF3;
-    --secondary: #2A2624;
-    --secondary-foreground: #FBFAF3;
-    --muted: #2A2624;
-    --muted-foreground: #A09B94;
-    --accent: #2A2624;
-    --accent-foreground: #FBFAF3;
-    --destructive: #CF4F4F;
-    --destructive-foreground: #FBFAF3;
-    --border: #2A2624;
-    --input: #2A2624;
-    --ring: #E55E0C;
-    --chart-1: #3366CC;
-    --chart-2: #3DAE91;
-    --chart-3: #F7964B;
-    --chart-4: #BB4BCE;
-    --chart-5: #E94A74;
-    --error: #FF3838;
-    --success: #00C48C;
-    --warning: #FFA000;
-    --info: #007AFF;
+    --background: #100d0b;
+    --foreground: #fbfaf3;
+    --card: #100d0b;
+    --card-foreground: #fbfaf3;
+    --popover: #100d0b;
+    --popover-foreground: #fbfaf3;
+    --primary: #e55e0c;
+    --primary-foreground: #fbfaf3;
+    --secondary: #2a2624;
+    --secondary-foreground: #fbfaf3;
+    --muted: #2a2624;
+    --muted-foreground: #a09b94;
+    --accent: #2a2624;
+    --accent-foreground: #fbfaf3;
+    --destructive: #cf4f4f;
+    --destructive-foreground: #fbfaf3;
+    --border: #2a2624;
+    --input: #2a2624;
+    --ring: #e55e0c;
+    --chart-1: #3366cc;
+    --chart-2: #3dae91;
+    --chart-3: #f7964b;
+    --chart-4: #bb4bce;
+    --chart-5: #e94a74;
+    --error: #ff3838;
+    --success: #00c48c;
+    --warning: #ffa000;
+    --info: #007aff;
   }
 }
 
@@ -74,4 +74,33 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Estilos para motores Webkit y blink (Chrome, Safari, Opera... )*/
+
+*::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+*::-webkit-scrollbar:vertical {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-button:increment,
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
+*::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+  opacity: 0.5;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
 }

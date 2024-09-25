@@ -26,32 +26,34 @@ export default function RootLayout({ title, children, withBreadcrumb = false }: 
     <>
       <Navbar />
       <Sidebar />
-      <main className='p-8 pt-16 md:ml-[300px] mx-auto bg-background flex flex-col min-h-0 h-full'>
-        {title && <h1 className='font-bold text-3xl'>{title}</h1>}
-        {withBreadcrumb && breadcrumb && (
-          <Breadcrumb className='my-4'>
-            <BreadcrumbList>
-              {breadcrumb.map((href, index) => {
-                const label = SIDEBAR_ROUTES.find(route => route.path.includes(href))?.name || href
-                if (index === breadcrumb.length - 1) {
+      <main className='p-8 pt-16 md:ml-[300px] mx-auto bg-background min-h-screen'>
+        <div>
+          {title && <h1 className='font-bold text-3xl'>{title}</h1>}
+          {withBreadcrumb && breadcrumb && (
+            <Breadcrumb className='my-4'>
+              <BreadcrumbList>
+                {breadcrumb.map((href, index) => {
+                  const label = SIDEBAR_ROUTES.find(route => route.path.includes(href))?.name || href
+                  if (index === breadcrumb.length - 1) {
+                    return (
+                      <BreadcrumbItem key={index}>
+                        <BreadcrumbPage>{label}</BreadcrumbPage>
+                      </BreadcrumbItem>
+                    )
+                  }
                   return (
-                    <BreadcrumbItem key={index}>
-                      <BreadcrumbPage>{label}</BreadcrumbPage>
-                    </BreadcrumbItem>
+                    <>
+                      <BreadcrumbItem key={index}>
+                        <Link to={`/${href}`}>{label}</Link>
+                      </BreadcrumbItem>
+                      <BreadcrumbSeparator />
+                    </>
                   )
-                }
-                return (
-                  <>
-                    <BreadcrumbItem key={index}>
-                      <Link to={`/${href}`}>{label}</Link>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                  </>
-                )
-              })}
-            </BreadcrumbList>
-          </Breadcrumb>
-        )}
+                })}
+              </BreadcrumbList>
+            </Breadcrumb>
+          )}
+        </div>
         {children}
       </main>
     </>
