@@ -18,12 +18,14 @@ export default function Chatbot() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  // Función que se desplazará automáticamente al final del contenedor
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
+  // Ejecuta el scroll cada vez que los mensajes cambien
   useEffect(() => {
     scrollToBottom()
   }, [messages])
