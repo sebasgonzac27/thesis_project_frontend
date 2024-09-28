@@ -5,6 +5,7 @@ import { Input } from '../ui/input'
 import { sendMessage } from '@/services'
 import { AxiosError } from 'axios'
 import { ChatbotMessage } from './ChatbotMessage'
+import { Card, CardContent } from '../ui/card'
 
 export interface Message {
   text: string
@@ -77,13 +78,39 @@ export default function Chatbot() {
 
   return (
     <div className='flex flex-col gap-2 h-screen max-h-[calc(100vh-185px)]'>
-      <div className='flex flex-1 flex-col gap-2 overflow-y-auto'>
-        {messages.map((message, index) => (
-          <ChatbotMessage message={message} key={index} />
-        ))}
-        {isLoading && <ChatbotMessage message={isLoadingMessage} />}
-        <div ref={messagesEndRef} />
-      </div>
+      {messages.length > 0 ? (
+        <div className='flex flex-1 flex-col gap-2 overflow-y-auto'>
+          {messages.map((message, index) => (
+            <ChatbotMessage message={message} key={index} />
+          ))}
+          {isLoading && <ChatbotMessage message={isLoadingMessage} />}
+          <div ref={messagesEndRef} />
+        </div>
+      ) : (
+        <div className='flex flex-1 flex-col justify-center items-center'>
+          <Icon name='BotMessageSquare' size={50} />
+          <div className='mt-6 md:mt-12 grid md:grid-cols-3 gap-4'>
+            <Card className='hover:bg-accent'>
+              <CardContent className='flex flex-col gap-3 p-2 justify-center items-center'>
+                <Icon name='Calendar' color='green' />
+                <p>¿Qué eventos hay programados?</p>
+              </CardContent>
+            </Card>
+            <Card className='hover:bg-accent'>
+              <CardContent className='flex flex-col gap-3 p-2 justify-center items-center'>
+                <Icon name='Handshake' color='red' />
+                <p>¿Qué convenios tiene el club?</p>
+              </CardContent>
+            </Card>
+            <Card className='hover:bg-accent'>
+              <CardContent className='flex flex-col gap-3 p-2 justify-center items-center'>
+                <Icon name='Airplay' color='cyan' />
+                <p>Otras opciones</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSendMessage} className='flex gap-2'>
         <Input placeholder='Escriba su mensaje aquí' value={text} onChange={handleChangeText} />
