@@ -11,6 +11,11 @@ export interface Message {
   isUser: boolean
 }
 
+const isLoadingMessage: Message = {
+  text: 'Pensando en la respuesta...',
+  isUser: false,
+}
+
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([])
   const [text, setText] = useState('')
@@ -59,7 +64,6 @@ export default function Chatbot() {
       const response = await sendMessage(text)
 
       setMessages(prevMessages => [...prevMessages, { text: response.message, isUser: false }])
-      setIsLoading(false)
     } catch (error) {
       if (error instanceof AxiosError) {
         setMessages(prevMessages => [
@@ -68,6 +72,7 @@ export default function Chatbot() {
         ])
       }
     }
+    setIsLoading(false)
   }
 
   return (
@@ -76,6 +81,7 @@ export default function Chatbot() {
         {messages.map((message, index) => (
           <ChatbotMessage message={message} key={index} />
         ))}
+        {isLoading && <ChatbotMessage message={isLoadingMessage} />}
         <div ref={messagesEndRef} />
       </div>
 
