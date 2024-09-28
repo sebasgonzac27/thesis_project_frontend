@@ -4,9 +4,9 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { sendMessage } from '@/services'
 import { AxiosError } from 'axios'
-import clsx from 'clsx'
+import { ChatbotMessage } from './ChatbotMessage'
 
-interface Message {
+export interface Message {
   text: string
   isUser: boolean
 }
@@ -49,15 +49,17 @@ export default function Chatbot() {
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (text.trim() === '') return
+    if (text.trim() === '' || isLoading) return
 
     setMessages(prevMessages => [...prevMessages, { text, isUser: true }])
     setText('')
+    setIsLoading(true)
 
     try {
       const response = await sendMessage(text)
 
       setMessages(prevMessages => [...prevMessages, { text: response.message, isUser: false }])
+      setIsLoading(false)
     } catch (error) {
       if (error instanceof AxiosError) {
         setMessages(prevMessages => [
@@ -71,23 +73,16 @@ export default function Chatbot() {
   return (
     <div className='flex flex-col gap-2 h-screen max-h-[calc(100vh-185px)]'>
       <div className='flex flex-1 flex-col gap-2 overflow-y-auto'>
-        {messages.map(({ text, isUser }, index) => (
-          <div
-            key={index}
-            className={clsx('p-2 rounded-lg max-w-md break-words', {
-              'bg-primary text-white self-end': isUser,
-              'bg-gray-200 text-black self-start': !isUser,
-            })}>
-            {text}
-          </div>
+        {messages.map((message, index) => (
+          <ChatbotMessage message={message} key={index} />
         ))}
         <div ref={messagesEndRef} />
       </div>
 
       <form onSubmit={handleSendMessage} className='flex gap-2'>
         <Input placeholder='Escriba su mensaje aquí' value={text} onChange={handleChangeText} />
-        <Button variant='default' type='submit'>
-          <Icon name='SendHorizontal' />
+        <Button variant='default' type='submit' disabled={isLoading}>
+          <Icon name={isLoading ? 'LoaderCircle' : 'SendHorizontal'} className={isLoading ? 'animate-spin' : ''} />
         </Button>
       </form>
     </div>
