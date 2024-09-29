@@ -1,21 +1,45 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Icon from '../shared/Icon'
+import Icon, { IconName } from '../shared/Icon'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { sendMessage } from '@/services'
 import { AxiosError } from 'axios'
 import { ChatbotMessage } from './ChatbotMessage'
-import { Card, CardContent } from '../ui/card'
+import { ChatbotFastAction } from './ChatbotFastAction'
 
 export interface Message {
   text: string
   isUser: boolean
 }
 
+export interface FastAction {
+  text: string
+  iconName: IconName
+  iconColor: string
+}
+
 const isLoadingMessage: Message = {
   text: 'Pensando en la respuesta...',
   isUser: false,
 }
+
+const fastActions: FastAction[] = [
+  {
+    text: '¿Qué eventos hay programados?',
+    iconName: 'Calendar',
+    iconColor: 'green',
+  },
+  {
+    text: '¿Qué convenios tiene el club?',
+    iconName: 'Handshake',
+    iconColor: 'red',
+  },
+  {
+    text: '¿Cuántos miembros tiene el club?',
+    iconName: 'Users',
+    iconColor: 'cyan',
+  },
+]
 
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -57,6 +81,10 @@ export default function Chatbot() {
     e.preventDefault()
     if (text.trim() === '' || isLoading) return
 
+    await sendMessageToApi(text)
+  }
+
+  const sendMessageToApi = async (text: string) => {
     setMessages(prevMessages => [...prevMessages, { text, isUser: true }])
     setText('')
     setIsLoading(true)
@@ -90,24 +118,15 @@ export default function Chatbot() {
         <div className='flex flex-1 flex-col justify-center items-center'>
           <Icon name='BotMessageSquare' size={50} />
           <div className='mt-6 md:mt-12 grid md:grid-cols-3 gap-4'>
-            <Card className='hover:bg-accent'>
-              <CardContent className='flex flex-col gap-3 p-2 justify-center items-center'>
-                <Icon name='Calendar' color='green' />
-                <p>¿Qué eventos hay programados?</p>
-              </CardContent>
-            </Card>
-            <Card className='hover:bg-accent'>
-              <CardContent className='flex flex-col gap-3 p-2 justify-center items-center'>
-                <Icon name='Handshake' color='red' />
-                <p>¿Qué convenios tiene el club?</p>
-              </CardContent>
-            </Card>
-            <Card className='hover:bg-accent'>
-              <CardContent className='flex flex-col gap-3 p-2 justify-center items-center'>
-                <Icon name='Airplay' color='cyan' />
-                <p>Otras opciones</p>
-              </CardContent>
-            </Card>
+            {fastActions.map(({ text, iconName, iconColor }, index) => (
+              <ChatbotFastAction
+                key={index}
+                text={text}
+                iconName={iconName}
+                iconColor={iconColor}
+                onClick={() => sendMessageToApi(text)}
+              />
+            ))}
           </div>
         </div>
       )}
