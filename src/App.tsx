@@ -13,6 +13,7 @@ const ConfirmEmailPage = lazy(() => import('@/pages/auth/ConfirmEmail'))
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPassword'))
 const HomePage = lazy(() => import('@/pages/Home'))
+const LocationsPage = lazy(() => import('@/pages/locations/Locations'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
 const ChatbotPage = lazy(() => import('@/pages/Chatbot'))
 
@@ -24,19 +25,22 @@ function App() {
         <BrowserRouter>
           <RoutesWithNotFound>
             <Route path='/' element={<Navigate to={PrivateRoutes.HOME} />} />
+
             {/* Aquí se pueden poner rutas públicas */}
             <Route path={PublicRoutes.LOGIN} element={<LoginPage />} />
             <Route path={PublicRoutes.REGISTER} element={<RegisterPage />} />
             <Route path={`${PublicRoutes.CONFIRM_EMAIL}/:token`} element={<ConfirmEmailPage />} />
             <Route path={PublicRoutes.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
             <Route path={`${PublicRoutes.RESET_PASSWORD}/:token`} element={<ResetPasswordPage />} />
+
+            {/* Aquí van las rutas que requieren autenticación */}
             <Route element={<AuthGuard />}>
               <Route path={PrivateRoutes.HOME} element={<HomePage />} />
               <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
+                <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               </Route>
-              {/* Aquí se puede poner un componente que solo configure rutas privadas */}
             </Route>
           </RoutesWithNotFound>
         </BrowserRouter>

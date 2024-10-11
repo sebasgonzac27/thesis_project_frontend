@@ -39,10 +39,12 @@ export default function Sidebar() {
     const roleToSet = parsedRole || user.role_id
 
     setRoleSelected(roleToSet as UserRole)
+    localStorage.setItem('role_selected', roleToSet.toString())
   }, [user, setRoleSelected])
 
   const handleRoleSelect = (role: string) => {
     setRoleSelected(parseInt(role) as UserRole)
+    localStorage.setItem('role_selected', role)
   }
 
   const handleLogOut = () => {

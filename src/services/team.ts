@@ -1,26 +1,11 @@
+import { RequestParams } from '@/interfaces/request-params'
+import { Response } from '@/interfaces/response'
 import { Team } from '@/models'
 import { api } from '@/utils'
+import { getParams } from '@/utils/get-params'
 
-export async function getTeams({
-  skip,
-  limit,
-  sort,
-  filter,
-}: {
-  skip?: number
-  limit?: number
-  sort?: string
-  filter?: string
-} = {}): Promise<Team[]> {
-  const params = new URLSearchParams()
-
-  if (skip !== undefined) params.append('skip', skip.toString())
-  if (limit !== undefined) params.append('limit', limit.toString())
-  if (sort) params.append('sort', sort)
-  if (filter) params.append('filter', filter)
-
-  const queryString = params.toString() ? `?${params.toString()}` : ''
-
+export async function getTeams(inputParams: Partial<RequestParams> = {}): Promise<Response<Team[]>> {
+  const queryString = getParams(inputParams)
   const { data } = await api.get(`/teams${queryString}`)
   return data
 }

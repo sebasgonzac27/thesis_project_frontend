@@ -1,5 +1,5 @@
-import { TeamWithLocation } from '@/models'
-import { getLocation, getTeams } from '@/services'
+import { Location } from '@/models'
+import { getLocations } from '@/services'
 import { useEffect, useMemo, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Button } from '../ui/button'
@@ -17,10 +17,13 @@ import {
 } from '../ui/pagination'
 import { Pagination as PaginationT } from '@/interfaces/pagination'
 import { useDebounceValue } from '@/hooks/useDebounce'
+import { getPages } from '@/utils/get-pages'
+import clsx from 'clsx'
 
-export default function TeamsList() {
-  const [teams, setTeams] = useState<TeamWithLocation[]>([])
+export default function LocationsList() {
+  const [locations, setLocations] = useState<Location[]>([])
   const [pagination, setPagination] = useState<PaginationT>()
+
   const {
     value: searchInput,
     debouncedValue: searchInputDebounced,
@@ -30,42 +33,50 @@ export default function TeamsList() {
   // Estados adicionales
   const [open, setOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [selectedTeam, setSelectedTeam] = useState<TeamWithLocation | null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const limit = 5
 
   useEffect(() => {
+    setCurrentPage(1)
+  }, [searchInput])
+
+  useEffect(() => {
+    console.log({ currentPage })
     ;(async () => {
-      const { data, pagination } = await getTeams()
-      const teamsWithLocation = await Promise.all(
-        data.map(async team => {
-          const location = await getLocation(team.location_id)
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { location_id, ...rest } = team
-          return { ...rest, location }
-        }),
-      )
-      setTeams(teamsWithLocation)
+      const { data, pagination } = await getLocations({
+        skip: (currentPage - 1) * limit,
+        limit,
+        filter: `name=${searchInput}`,
+      })
+      setLocations(data)
       setPagination(pagination)
     })()
-  }, []) // Nota: agregar dependencias aquí para evitar ciclos infinitos
+  }, [currentPage, searchInput])
+
+  const pages = useMemo(() => {
+    return pagination ? getPages(pagination.total_pages, pagination.current_page) : []
+  }, [pagination])
 
   const filteredTeams = useMemo(() => {
-    return teams.filter(
-      team =>
-        team.name.toLowerCase().includes(searchInputDebounced.toLowerCase()) ||
-        team.location.name.toLowerCase().includes(searchInputDebounced.toLowerCase()),
-    )
-  }, [searchInputDebounced, teams])
+    return locations.filter(location => location.name.toLowerCase().includes(searchInputDebounced.toLowerCase()))
+  }, [searchInputDebounced, locations])
 
   const handleSearch = ({ target }: { target: HTMLInputElement }) => {
     setSearchInput(target.value)
   }
 
-  const handleOpenModal = (team: TeamWithLocation | null = null) => {
-    if (team) {
-      setSelectedTeam(team) // Modo edición
+  const handleSelectPage = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handleOpenModal = (location: Location | null = null) => {
+    if (location) {
+      setSelectedLocation(location) // Modo edición
       setIsEditing(true)
     } else {
-      setSelectedTeam(null) // Modo creación
+      setSelectedLocation(null) // Modo creación
       setIsEditing(false)
     }
     setOpen(true)
@@ -73,14 +84,14 @@ export default function TeamsList() {
 
   const handleCloseModal = () => {
     setOpen(false)
-    setSelectedTeam(null)
+    setSelectedLocation(null)
     setIsEditing(false)
   }
 
   const handleSave = () => {
     if (isEditing) {
       // Lógica para editar el equipo
-      console.log('Editando equipo:', selectedTeam)
+      console.log('Editando equipo:', selectedLocation)
     } else {
       // Lógica para crear un nuevo equipo
       console.log('Creando nuevo equipo')
@@ -100,21 +111,21 @@ export default function TeamsList() {
             <TableRow>
               <TableHead className='w-[100px]'>Id</TableHead>
               <TableHead>Nombre</TableHead>
-              <TableHead>Ubicación</TableHead>
+              <TableHead>Tipo</TableHead>
               <TableHead className='text-right'>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredTeams.map(team => (
-              <TableRow key={team.id}>
-                <TableCell>{team.id}</TableCell>
-                <TableCell>{team.name}</TableCell>
-                <TableCell>{team.location.name}</TableCell>
+            {filteredTeams.map(location => (
+              <TableRow key={location.id}>
+                <TableCell>{location.id}</TableCell>
+                <TableCell>{location.name}</TableCell>
+                <TableCell>{location.type}</TableCell>
                 <TableCell className='flex gap-2 justify-end'>
-                  <Button variant='outline' onClick={() => handleOpenModal(team)}>
+                  <Button variant='outline' onClick={() => handleOpenModal(location)}>
                     Editar
                   </Button>
-                  <Button variant='destructive' onClick={() => console.log('Eliminar equipo', team)}>
+                  <Button variant='destructive' onClick={() => console.log('Eliminar equipo', location)}>
                     Eliminar
                   </Button>
                 </TableCell>
@@ -127,21 +138,26 @@ export default function TeamsList() {
             <Pagination>
               <PaginationContent>
                 {pagination?.prev_page && (
-                  <PaginationItem>
+                  <PaginationItem className='cursor-pointer' onClick={() => handleSelectPage(currentPage - 1)}>
                     <PaginationPrevious />
                   </PaginationItem>
                 )}
-                {new Array(pagination?.total_pages).map((_, index) => (
-                  <PaginationItem>
-                    <PaginationLink>{index + 1}</PaginationLink>
-                  </PaginationItem>
-                ))}
-
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
+                {pages.map((page, index) =>
+                  page === '...' ? (
+                    <PaginationItem key={index}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  ) : (
+                    <PaginationItem
+                      key={index}
+                      className={clsx('cursor-pointer', { 'bg-accent rounded-md': currentPage === page })}
+                      onClick={() => handleSelectPage(page as number)}>
+                      <PaginationLink>{page}</PaginationLink>
+                    </PaginationItem>
+                  ),
+                )}
                 {pagination?.next_page && (
-                  <PaginationItem>
+                  <PaginationItem className='cursor-pointer' onClick={() => handleSelectPage(currentPage + 1)}>
                     <PaginationNext />
                   </PaginationItem>
                 )}
@@ -149,7 +165,7 @@ export default function TeamsList() {
             </Pagination>
           )}
           <p className='text-sm'>
-            Mostrando <b>{teams.length}</b> de <b>{pagination?.total_records}</b> resultados
+            Mostrando <b>{locations.length}</b> de <b>{pagination?.total_records}</b> resultados
           </p>
         </div>
       </div>
@@ -167,8 +183,8 @@ export default function TeamsList() {
           {/* Formulario simple para creación/edición */}
           <Input
             placeholder='Nombre del equipo'
-            value={selectedTeam?.name || ''}
-            onChange={e => setSelectedTeam({ ...selectedTeam!, name: e.target.value })}
+            value={selectedLocation?.name || ''}
+            onChange={e => setSelectedLocation({ ...selectedLocation!, name: e.target.value })}
             className='mb-4'
           />
 

@@ -10,4 +10,5 @@ export const PrivateRoutes = {
   HOME: 'home',
   TEAMS: 'teams',
   CHATBOT: 'chatbot',
+  LOCATIONS: 'locations',
 }

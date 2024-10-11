@@ -11,7 +11,7 @@ interface Props {
 
 export function ChatbotFastAction({ text, iconName, iconColor, onClick }: Props) {
   return (
-    <Card className='hover:bg-accent' onClick={onClick}>
+    <Card className='hover:bg-accent cursor-pointer' onClick={onClick}>
       <CardContent className='flex flex-col gap-3 p-4 justify-center items-center'>
         <Icon name={iconName} color={iconColor} />
         <p className='text-center'>{text}</p>

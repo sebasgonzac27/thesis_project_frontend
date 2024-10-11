@@ -1,5 +1,6 @@
 import { IconName } from '@/components'
 import { UserRole } from '@/models'
+import { PrivateRoutes } from './routes'
 
 interface Route {
   name: string
@@ -11,13 +12,19 @@ interface Route {
 export const SIDEBAR_ROUTES: Route[] = [
   {
     name: 'Inicio',
-    path: '/home',
+    path: `/${PrivateRoutes.HOME}`,
     icon: 'House',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
   {
+    name: 'Locaciones',
+    path: `/${PrivateRoutes.LOCATIONS}`,
+    icon: 'MapPin',
+    roles: [UserRole.ADMIN],
+  },
+  {
     name: 'Equipos',
-    path: '/teams',
+    path: `/${PrivateRoutes.TEAMS}`,
     icon: 'ShieldHalf',
     roles: [UserRole.ADMIN],
   },
@@ -53,7 +60,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'Chatbot',
-    path: '/chatbot',
+    path: `/${PrivateRoutes.CHATBOT}`,
     icon: 'Bot',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },

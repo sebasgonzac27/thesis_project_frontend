@@ -9,5 +9,6 @@ interface Props {
 
 export default function RoleGuard({ roles }: Props) {
   const { role_selected } = useAppStore()
+
   return role_selected && roles.includes(role_selected) ? <Outlet /> : <Navigate to={PrivateRoutes.HOME} />
 }
