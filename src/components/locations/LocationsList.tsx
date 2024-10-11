@@ -40,7 +40,7 @@ export default function LocationsList() {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchInput])
+  }, [searchInputDebounced])
 
   useEffect(() => {
     console.log({ currentPage })
@@ -48,12 +48,12 @@ export default function LocationsList() {
       const { data, pagination } = await getLocations({
         skip: (currentPage - 1) * limit,
         limit,
-        filter: `name=${searchInput}`,
+        filter: `name=${searchInputDebounced}`,
       })
       setLocations(data)
       setPagination(pagination)
     })()
-  }, [currentPage, searchInput])
+  }, [currentPage, searchInputDebounced])
 
   const pages = useMemo(() => {
     return pagination ? getPages(pagination.total_pages, pagination.current_page) : []
