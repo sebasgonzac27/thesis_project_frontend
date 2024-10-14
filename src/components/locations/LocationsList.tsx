@@ -19,6 +19,7 @@ import { Pagination as PaginationT } from '@/interfaces/pagination'
 import { useDebounceValue } from '@/hooks/useDebounce'
 import { getPages } from '@/utils/get-pages'
 import clsx from 'clsx'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
 export default function LocationsList() {
   const [locations, setLocations] = useState<Location[]>([])
@@ -35,25 +36,23 @@ export default function LocationsList() {
   const [isEditing, setIsEditing] = useState(false)
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
-
-  const limit = 5
+  const [resultsPerPage, setResultsPerPage] = useState<number>(5)
 
   useEffect(() => {
     setCurrentPage(1)
   }, [searchInputDebounced])
 
   useEffect(() => {
-    console.log({ currentPage })
     ;(async () => {
       const { data, pagination } = await getLocations({
-        skip: (currentPage - 1) * limit,
-        limit,
+        skip: (currentPage - 1) * resultsPerPage,
+        limit: resultsPerPage,
         filter: `name=${searchInputDebounced}`,
       })
       setLocations(data)
       setPagination(pagination)
     })()
-  }, [currentPage, searchInputDebounced])
+  }, [currentPage, searchInputDebounced, resultsPerPage])
 
   const pages = useMemo(() => {
     return pagination ? getPages(pagination.total_pages, pagination.current_page) : []
@@ -102,8 +101,22 @@ export default function LocationsList() {
   return (
     <div className='flex flex-col'>
       <div className='flex justify-between items-center my-4 gap-2'>
-        <Input placeholder='Buscar equipo' className='w-full max-w-56' onChange={handleSearch} value={searchInput} />
-        <Button onClick={() => handleOpenModal()}>Crear equipo</Button>
+        <Input placeholder='Buscar' className='w-full max-w-56' onChange={handleSearch} value={searchInput} />
+        <div className='flex items-center gap-2'>
+          <Select value={resultsPerPage.toString()} onValueChange={value => setResultsPerPage(Number(value))}>
+            <SelectTrigger className='w-[180px]'>
+              <SelectValue placeholder='Mostrar' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='5'>5</SelectItem>
+              <SelectItem value='10'>10</SelectItem>
+              <SelectItem value='15'>15</SelectItem>
+              <SelectItem value='20'>20</SelectItem>
+              <SelectItem value='25'>25</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={() => handleOpenModal()}>Crear equipo</Button>
+        </div>
       </div>
       <div>
         <Table>
