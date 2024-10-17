@@ -1,181 +1,22 @@
-import { TeamWithLocation } from '@/models'
-import { getLocation, getTeams } from '@/services'
-import { useEffect, useMemo, useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { Dialog, DialogContent, DialogDescription, DialogHeader } from '../ui/dialog'
-import { DialogTitle } from '@radix-ui/react-dialog'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '../ui/pagination'
-import { Pagination as PaginationT } from '@/interfaces/pagination'
-import { useDebounceValue } from '@/hooks/useDebounce'
+import { getTeams } from '@/services'
+import CrudList from '../shared/CrudList'
 
 export default function TeamsList() {
-  const [teams, setTeams] = useState<TeamWithLocation[]>([])
-  const [pagination, setPagination] = useState<PaginationT>()
-  const {
-    value: searchInput,
-    debouncedValue: searchInputDebounced,
-    setValue: setSearchInput,
-  } = useDebounceValue<string>('')
-
-  // Estados adicionales
-  const [open, setOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [selectedTeam, setSelectedTeam] = useState<TeamWithLocation | null>(null)
-
-  useEffect(() => {
-    ;(async () => {
-      const { data, pagination } = await getTeams()
-      const teamsWithLocation = await Promise.all(
-        data.map(async team => {
-          const location = await getLocation(team.location_id)
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { location_id, ...rest } = team
-          return { ...rest, location }
-        }),
-      )
-      setTeams(teamsWithLocation)
-      setPagination(pagination)
-    })()
-  }, []) // Nota: agregar dependencias aquí para evitar ciclos infinitos
-
-  const filteredTeams = useMemo(() => {
-    return teams.filter(
-      team =>
-        team.name.toLowerCase().includes(searchInputDebounced.toLowerCase()) ||
-        team.location.name.toLowerCase().includes(searchInputDebounced.toLowerCase()),
-    )
-  }, [searchInputDebounced, teams])
-
-  const handleSearch = ({ target }: { target: HTMLInputElement }) => {
-    setSearchInput(target.value)
-  }
-
-  const handleOpenModal = (team: TeamWithLocation | null = null) => {
-    if (team) {
-      setSelectedTeam(team) // Modo edición
-      setIsEditing(true)
-    } else {
-      setSelectedTeam(null) // Modo creación
-      setIsEditing(false)
-    }
-    setOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setOpen(false)
-    setSelectedTeam(null)
-    setIsEditing(false)
-  }
-
-  const handleSave = () => {
-    if (isEditing) {
-      // Lógica para editar el equipo
-      console.log('Editando equipo:', selectedTeam)
-    } else {
-      // Lógica para crear un nuevo equipo
-      console.log('Creando nuevo equipo')
-    }
-    handleCloseModal()
-  }
-
   return (
-    <div className='flex flex-col'>
-      <div className='flex justify-between items-center my-4 gap-2'>
-        <Input placeholder='Buscar equipo' className='w-full max-w-56' onChange={handleSearch} value={searchInput} />
-        <Button onClick={() => handleOpenModal()}>Crear equipo</Button>
-      </div>
-      <div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className='w-[100px]'>Id</TableHead>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Ubicación</TableHead>
-              <TableHead className='text-right'>Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredTeams.map(team => (
-              <TableRow key={team.id}>
-                <TableCell>{team.id}</TableCell>
-                <TableCell>{team.name}</TableCell>
-                <TableCell>{team.location.name}</TableCell>
-                <TableCell className='flex gap-2 justify-end'>
-                  <Button variant='outline' onClick={() => handleOpenModal(team)}>
-                    Editar
-                  </Button>
-                  <Button variant='destructive' onClick={() => console.log('Eliminar equipo', team)}>
-                    Eliminar
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <div className='flex flex-col items-center justify-center gap-4'>
-          {pagination && pagination?.total_pages > 1 && (
-            <Pagination>
-              <PaginationContent>
-                {pagination?.prev_page && (
-                  <PaginationItem>
-                    <PaginationPrevious />
-                  </PaginationItem>
-                )}
-                {new Array(pagination?.total_pages).map((_, index) => (
-                  <PaginationItem>
-                    <PaginationLink>{index + 1}</PaginationLink>
-                  </PaginationItem>
-                ))}
-
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                {pagination?.next_page && (
-                  <PaginationItem>
-                    <PaginationNext />
-                  </PaginationItem>
-                )}
-              </PaginationContent>
-            </Pagination>
-          )}
-          <p className='text-sm'>
-            Mostrando <b>{teams.length}</b> de <b>{pagination?.total_records}</b> resultados
-          </p>
-        </div>
-      </div>
-
-      {/* Modal */}
-      <Dialog open={open} onOpenChange={handleCloseModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{isEditing ? 'Editar equipo' : 'Crear equipo'}</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-            {isEditing ? 'Edita la información del equipo.' : 'Completa la información para crear un nuevo equipo.'}
-          </DialogDescription>
-
-          {/* Formulario simple para creación/edición */}
-          <Input
-            placeholder='Nombre del equipo'
-            value={selectedTeam?.name || ''}
-            onChange={e => setSelectedTeam({ ...selectedTeam!, name: e.target.value })}
-            className='mb-4'
-          />
-
-          {/* Botón de guardar */}
-          <Button onClick={handleSave}>{isEditing ? 'Guardar cambios' : 'Crear equipo'}</Button>
-        </DialogContent>
-      </Dialog>
-    </div>
+    <CrudList
+      title='Equipos'
+      getData={getTeams}
+      columns={[
+        { key: 'name', label: 'Nombre' },
+        { key: 'location_id', label: 'Unicación' },
+      ]}
+      modalFields={[
+        { key: 'name', label: 'Nombre', placeholder: 'Nombre del equipo' },
+        { key: 'location_id', label: 'Unicación', placeholder: 'Unicación del equipo' },
+      ]}
+      onCreate={data => console.log('Creando equipo:', data)}
+      onUpdate={data => console.log('Editando equipo:', data)}
+      onDelete={data => console.log('Eliminando equipo:', data)}
+    />
   )
 }
