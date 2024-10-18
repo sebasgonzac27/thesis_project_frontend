@@ -7,7 +7,7 @@ export default function getParams({ skip, limit, sort, filter }: Partial<Request
   if (limit) params.append('limit', limit.toString())
   if (sort) params.append('sort', sort)
   if (filter) params.append('filter', filter)
-
-  const queryString = params.toString() ? `?${params.toString()}` : ''
+  const paramsString = params.toString()
+  const queryString = paramsString ? `?${paramsString}` : ''
   return queryString
 }

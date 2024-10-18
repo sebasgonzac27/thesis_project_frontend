@@ -17,7 +17,7 @@ import {
 } from '../ui/pagination'
 import { Pagination as PaginationT } from '@/interfaces/pagination'
 import { useDebounceValue } from '@/hooks/useDebounce'
-import { getPages } from '@/utils/get-pages'
+import { getPages } from '@/utils'
 import clsx from 'clsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 

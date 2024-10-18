@@ -16,7 +16,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import clsx from 'clsx'
 import { useDebounceValue } from '@/hooks/useDebounce'
-import { getPages } from '@/utils/get-pages'
+import { getPages } from '@/utils'
 import { Pagination as PaginationT } from '@/interfaces/pagination'
 
 interface CrudListProps<T> {

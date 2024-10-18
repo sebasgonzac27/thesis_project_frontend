@@ -1,9 +1,9 @@
-import { refreshToken } from '@/services'
+import { refreshToken as refreshTokenService } from '@/services'
 import axios from 'axios'
-import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
-import { getValidationError } from './get-validation-error'
 import { toast } from 'sonner'
 import { CONFIG } from '@/config'
+import getValidationError from './get-validation-error'
+import { deleteToken, getToken, setToken } from './token'
 
 const api = axios.create({
   baseURL: CONFIG.API_URL,
@@ -18,7 +18,7 @@ api.interceptors.request.use(request => {
     return request
   }
 
-  const accessToken = getCookie('access_token')
+  const { accessToken } = getToken()
   if (accessToken) {
     request.headers['Authorization'] = `Bearer ${accessToken}`
   }
@@ -30,7 +30,7 @@ api.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config
-    const accessToken = getCookie('access_token')
+    const { accessToken } = getToken()
 
     // Verificar si el error es por token expirado
     if (error.response.status === 401 && accessToken && !originalRequest._retry) {
@@ -38,23 +38,23 @@ api.interceptors.response.use(
 
       try {
         // Obtener el refresh_token almacenado
-        const refresh_token = getCookie('refresh_token') as string
+        const { refreshToken } = getToken()
 
         // Llamar al endpoint para obtener un nuevo token
-        const data = await refreshToken(refresh_token)
+        const data = await refreshTokenService(refreshToken || '')
 
-        setCookie('access_token', data.access_token)
-        setCookie('refresh_token', data.refresh_token)
+        setToken(data.access_token, data.refresh_token)
+
+        const { accessToken } = getToken()
 
         // Reintentar la solicitud original
-        originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`
         return api(originalRequest)
       } catch (err) {
         // Manejar el error, por ejemplo, redirigir al login si el refresh_token también falla
         // Acción para cerrar la sesión y redirigir al login
         console.log(err)
-        removeCookie('access_token')
-        removeCookie('refresh_token')
+        deleteToken()
         window.location.href = '/'
       }
     }
