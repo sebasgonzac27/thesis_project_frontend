@@ -1,6 +1,6 @@
 import { RequestParams } from '@/interfaces/request-params'
 
-export function getParams({ skip, limit, sort, filter }: Partial<RequestParams>): string {
+export default function getParams({ skip, limit, sort, filter }: Partial<RequestParams>): string {
   const params = new URLSearchParams()
 
   if (skip) params.append('skip', skip.toString())

@@ -11,6 +11,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { deleteLocalStorage, deleteToken } from '@/utils'
 import { useAppStore } from '@/store/app'
 import { SIDEBAR_ROUTES } from '@/routes/sidebar'
+import { PrivateRoutes } from '@/routes'
 
 export default function Sidebar() {
   const { isOpen } = useDashboardStore()
@@ -45,6 +46,10 @@ export default function Sidebar() {
   const handleRoleSelect = (role: string) => {
     setRoleSelected(parseInt(role) as UserRole)
     localStorage.setItem('role_selected', role)
+  }
+
+  const handleViewProfile = () => {
+    navigate(`/${PrivateRoutes.PROFILE}`)
   }
 
   const handleLogOut = () => {
@@ -116,7 +121,7 @@ export default function Sidebar() {
               <Icon name='EllipsisVertical' />
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleViewProfile}>
                 <Icon name='User' size={20} />
                 <span className='ml-2'>Perfil</span>
               </DropdownMenuItem>

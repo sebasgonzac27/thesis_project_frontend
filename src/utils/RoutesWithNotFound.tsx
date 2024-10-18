@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode
 }
 
-export function RoutesWithNotFound({ children }: Props) {
+export default function RoutesWithNotFound({ children }: Props) {
   return (
     <Routes>
       {children}

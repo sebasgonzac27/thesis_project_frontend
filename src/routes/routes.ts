@@ -11,4 +11,5 @@ export const PrivateRoutes = {
   TEAMS: 'teams',
   CHATBOT: 'chatbot',
   LOCATIONS: 'locations',
+  PROFILE: 'profile',
 }

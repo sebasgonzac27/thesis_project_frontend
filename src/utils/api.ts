@@ -5,7 +5,7 @@ import { getValidationError } from './get-validation-error'
 import { toast } from 'sonner'
 import { CONFIG } from '@/config'
 
-export const api = axios.create({
+const api = axios.create({
   baseURL: CONFIG.API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -64,3 +64,5 @@ api.interceptors.response.use(
     return Promise.reject(error)
   },
 )
+
+export default api

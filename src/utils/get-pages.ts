@@ -1,4 +1,4 @@
-export function getPages(totalPages: number, currentPage: number) {
+export default function getPages(totalPages: number, currentPage: number) {
   const pages = []
 
   // Siempre mostramos las primeras 2 páginas

@@ -4,18 +4,19 @@ import { AuthGuard, RoleGuard } from '@/guards'
 import { Suspense, lazy } from 'react'
 import { RoutesWithNotFound } from '@/utils'
 import { ThemeProvider, Toaster } from '@/components'
-import { LoaderSuspense } from './pages'
-import { UserRole } from './models'
+import LoaderSuspense from '@/pages/LoaderSuspense'
+import { UserRole } from '@/models'
 
 const LoginPage = lazy(() => import('@/pages/auth/Login'))
 const RegisterPage = lazy(() => import('@/pages/auth/Register'))
 const ConfirmEmailPage = lazy(() => import('@/pages/auth/ConfirmEmail'))
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPassword'))
-const HomePage = lazy(() => import('@/pages/Home'))
+const HomePage = lazy(() => import('@/pages/home/Home'))
+const ProfilePage = lazy(() => import('@/pages/profile/Profile'))
 const LocationsPage = lazy(() => import('@/pages/locations/Locations'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
-const ChatbotPage = lazy(() => import('@/pages/Chatbot'))
+const ChatbotPage = lazy(() => import('@/pages/chatbot/Chatbot'))
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             {/* Aquí van las rutas que requieren autenticación */}
             <Route element={<AuthGuard />}>
               <Route path={PrivateRoutes.HOME} element={<HomePage />} />
+              <Route path={PrivateRoutes.PROFILE} element={<ProfilePage />} />
               <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
                 <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />

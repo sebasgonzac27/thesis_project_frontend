@@ -1,3 +1,4 @@
+// COMPONENTS
 export { default as LoginForm } from './auth/LoginForm'
 export { default as RegisterForm } from './auth/RegisterForm'
 export { default as ConfirmEmail } from './auth/ConfirmEmail'
@@ -10,6 +11,8 @@ export { default as Icon } from './shared/Icon'
 export { default as Navigation } from './home/Navigation'
 export { default as TeamsList } from './teams/TeamsList'
 export { default as Chatbot } from './chatbot/Chatbot'
+
+// UI
 export * from './shared/Icon'
 export * from './ui/button'
 export * from './ui/card'
