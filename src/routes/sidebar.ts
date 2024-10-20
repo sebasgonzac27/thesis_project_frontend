@@ -36,7 +36,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'Eventos',
-    path: '/events',
+    path: `/${PrivateRoutes.EVENTS}`,
     icon: 'CalendarDays',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },

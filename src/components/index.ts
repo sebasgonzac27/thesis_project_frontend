@@ -10,6 +10,7 @@ export { default as Sidebar } from './shared/Sidebar'
 export { default as Icon } from './shared/Icon'
 export { default as Navigation } from './home/Navigation'
 export { default as TeamsList } from './teams/TeamsList'
+export { default as EventsList } from './events/EventIndex'
 export { default as Chatbot } from './chatbot/Chatbot'
 
 // UI
@@ -33,4 +34,8 @@ export * from './ui/dialog'
 export * from './ui/pagination'
 export * from './ui/avatar'
 export * from './ui/breadcrumb'
+<<<<<<< Updated upstream
 export * from './ui/skeleton'
+=======
+export * from './ui/textarea'
+>>>>>>> Stashed changes
