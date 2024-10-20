@@ -34,8 +34,5 @@ export * from './ui/dialog'
 export * from './ui/pagination'
 export * from './ui/avatar'
 export * from './ui/breadcrumb'
-<<<<<<< Updated upstream
 export * from './ui/skeleton'
-=======
 export * from './ui/textarea'
->>>>>>> Stashed changes

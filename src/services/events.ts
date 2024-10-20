@@ -2,8 +2,7 @@ import { RequestParams } from '@/interfaces/request-params'
 import { Response } from '@/interfaces/response'
 import { Event } from '@/models'
 import { api } from '@/utils'
-import { getParams } from '@/utils/get-params'
-
+import { getParams } from '@/utils'
 
 export async function getEvents(inputParams: Partial<RequestParams> = {}): Promise<Response<Event[]>> {
   const queryString = getParams(inputParams)

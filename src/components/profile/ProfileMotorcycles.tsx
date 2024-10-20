@@ -22,12 +22,13 @@ export default function ProfileMotorcycles({ user }: Props) {
   return (
     <div>
       <h2 className='font-bold text-2xl'>Motocicletas</h2>
-      <div className='flex gap-3  overflow-x-auto py-4'>
+      <div className='flex gap-3  overflow-x-auto py-4 h-52'>
         {motorcycles.map(motorcycle => (
           <ProfileMotorcycleCard key={motorcycle.id} motorcycle={motorcycle} />
         ))}
-        <Card className='hover:bg-accent min-w-36'>
-          <Icon name='Plus' size={60} className='m-auto h-full' />
+        <Card className='hover:bg-accent max-w-36 h-full p-4 flex flex-col justify-center items-center gap-2'>
+          <Icon name='Plus' size={30} />
+          <p className='text-center text-pretty'>Añadir motocicleta</p>
         </Card>
       </div>
     </div>

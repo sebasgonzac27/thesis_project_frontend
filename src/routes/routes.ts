@@ -11,9 +11,6 @@ export const PrivateRoutes = {
   TEAMS: 'teams',
   CHATBOT: 'chatbot',
   LOCATIONS: 'locations',
-<<<<<<< Updated upstream
   PROFILE: 'profile',
-=======
   EVENTS: 'events',
->>>>>>> Stashed changes
 }

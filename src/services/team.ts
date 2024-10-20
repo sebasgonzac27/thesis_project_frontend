@@ -13,8 +13,4 @@ export async function getTeams(inputParams: Partial<RequestParams> = {}): Promis
 export async function getTeam(id: number): Promise<Team> {
   const { data } = await api.get(`/teams/${id}`)
   return data
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
