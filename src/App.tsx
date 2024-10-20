@@ -40,10 +40,10 @@ function App() {
               <Route path={PrivateRoutes.HOME} element={<HomePage />} />
               <Route path={PrivateRoutes.PROFILE} element={<ProfilePage />} />
               <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
+              <Route path={PrivateRoutes.EVENTS} element={<EventsPage />} />
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
                 <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
-                <Route path={PrivateRoutes.EVENTS} element={<EventsPage />} />
               </Route>
             </Route>
           </RoutesWithNotFound>
