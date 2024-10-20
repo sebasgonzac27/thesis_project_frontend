@@ -1,4 +1,4 @@
-enum LocationType {
+export enum LocationType {
   City = 'ciudad',
   Department = 'departamento',
 }

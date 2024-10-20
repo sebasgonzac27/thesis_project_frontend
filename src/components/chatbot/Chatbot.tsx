@@ -105,7 +105,7 @@ export default function Chatbot() {
   }
 
   return (
-    <div className='flex flex-col gap-2 h-screen max-h-[calc(100vh-185px)]'>
+    <div className='flex flex-col gap-2 h-screen max-h-[calc(100vh-220px)]'>
       {messages.length > 0 ? (
         <div className='flex flex-1 flex-col gap-2 overflow-y-auto'>
           {messages.map((message, index) => (

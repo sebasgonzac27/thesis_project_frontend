@@ -12,7 +12,7 @@ export default function TeamsList() {
       ]}
       modalFields={[
         { key: 'name', label: 'Nombre', placeholder: 'Nombre del equipo' },
-        { key: 'location_id', label: 'Unicación', placeholder: 'Unicación del equipo' },
+        { key: 'location_id', label: 'Ubicación', placeholder: 'Unicación del equipo' },
       ]}
       onCreate={data => console.log('Creando equipo:', data)}
       onUpdate={data => console.log('Editando equipo:', data)}

@@ -8,3 +8,4 @@ export { default as getParams } from './get-params'
 
 export * from './token'
 export * from './local-storage'
+export * from './format-date'

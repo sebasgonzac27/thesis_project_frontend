@@ -6,15 +6,15 @@ import useUserStore from '@/store/user'
 import { UserRole } from '@/models'
 import { useNavigate, NavLink } from 'react-router-dom'
 import Icon from './Icon'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Avatar, AvatarImage } from '../ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import { deleteLocalStorage, deleteToken } from '@/utils'
+import { deleteLocalStorage, deleteToken, getAvatar } from '@/utils'
 import { useAppStore } from '@/store/app'
 import { SIDEBAR_ROUTES } from '@/routes/sidebar'
 import { PrivateRoutes } from '@/routes'
 
 export default function Sidebar() {
-  const { isOpen } = useDashboardStore()
+  const { isOpen, toggleOpen } = useDashboardStore()
   const { user, deleteUser } = useUserStore()
   const { role_selected, setRoleSelected } = useAppStore()
   const navigate = useNavigate()
@@ -49,6 +49,7 @@ export default function Sidebar() {
   }
 
   const handleViewProfile = () => {
+    onClick()
     navigate(`/${PrivateRoutes.PROFILE}`)
   }
 
@@ -59,10 +60,14 @@ export default function Sidebar() {
     navigate('/')
   }
 
+  const onClick = () => {
+    toggleOpen()
+  }
+
   return (
     <aside
       className={clsx(
-        `bg-background md:border-r-2 border-accent absolute w-screen h-screen md:fixed top-0 md:left-0 md:h-full md:w-[300px] pt-14 flex flex-col transition-all duration-300 ease-in-out`,
+        `bg-background md:border-r-2 border-accent absolute w-screen h-screen md:fixed top-0 md:left-0 md:h-full md:w-[300px] pt-14 flex flex-col transition-all duration-300 ease-in-out z-10`,
         {
           '-left-full': !isOpen,
           'left-0': isOpen,
@@ -97,7 +102,8 @@ export default function Sidebar() {
                       clsx('flex items-center gap-2 p-2 hover:bg-accent rounded-md', {
                         'font-medium text-primary bg-accent': isActive,
                       })
-                    }>
+                    }
+                    onClick={onClick}>
                     <Icon name={icon} size={20} />
                     <span>{name}</span>
                   </NavLink>
@@ -107,10 +113,7 @@ export default function Sidebar() {
         </div>
         <div className='w-full border-t-2 border-accent p-4 flex items-center justify-between'>
           <Avatar className='border-2 border-foreground'>
-            <AvatarImage src={`https://unavatar.io/${user?.email}`} />
-            <AvatarFallback className='uppercase bg-primary font-bold'>
-              {user && user.profile.first_name.charAt(0) + user.profile.last_name.charAt(0)}
-            </AvatarFallback>
+            <AvatarImage src={getAvatar(user!.email)} />
           </Avatar>
           <div className='flex flex-col'>
             <p className='font-bold'>{`${user?.profile.first_name.split(' ')[0]} ${user?.profile.last_name.split(' ')[0]}`}</p>

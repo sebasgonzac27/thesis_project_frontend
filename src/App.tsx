@@ -16,7 +16,12 @@ const HomePage = lazy(() => import('@/pages/home/Home'))
 const ProfilePage = lazy(() => import('@/pages/profile/Profile'))
 const LocationsPage = lazy(() => import('@/pages/locations/Locations'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
+<<<<<<< Updated upstream
 const ChatbotPage = lazy(() => import('@/pages/chatbot/Chatbot'))
+=======
+const ChatbotPage = lazy(() => import('@/pages/Chatbot'))
+const EventsPage = lazy(() => import('@/pages/events/Events'))
+>>>>>>> Stashed changes
 
 function App() {
   return (
@@ -42,6 +47,7 @@ function App() {
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
                 <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
+                <Route path={PrivateRoutes.EVENTS} element={<EventsPage />} />
               </Route>
             </Route>
           </RoutesWithNotFound>

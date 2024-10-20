@@ -59,9 +59,11 @@ api.interceptors.response.use(
       }
     }
     // Si no es un error de 401, rechazar la promesa
-    const errorMsg = getValidationError(error)
-    toast.error(errorMsg)
-    return Promise.reject(error)
+    if (error.response.status !== 404) {
+      const errorMsg = getValidationError(error)
+      toast.error(errorMsg)
+      return Promise.reject(error)
+    }
   },
 )
 
