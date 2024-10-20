@@ -74,8 +74,8 @@ export default function RegisterForm() {
 
   useEffect(() => {
     ;(async () => {
-      const result = await getTeams()
-      setTeams(result)
+      const { data } = await getTeams()
+      setTeams(data)
     })()
   }, [])
 

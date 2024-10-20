@@ -11,6 +11,9 @@ importers:
       '@fontsource-variable/nunito':
         specifier: ^5.0.19
         version: 5.0.19
+      '@formkit/tempo':
+        specifier: ^0.1.2
+        version: 0.1.2
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.0(react-hook-form@7.52.2(react@18.3.1))
@@ -426,6 +429,9 @@ packages:
 
   '@fontsource-variable/nunito@5.0.19':
     resolution: {integrity: sha512-kY+1OIFhl167U25iY+V2GLk6E389UKIu0rnJXAj2y4qc6mYqbMcyeT0Y7G+btT6ZdItL2dcvX0bOfe0cbddQYg==}
+
+  '@formkit/tempo@0.1.2':
+    resolution: {integrity: sha512-jNPPbjL8oj7hK3eHX++CwbR6X4GKQt+x00/q4yeXkwynXHGKL27dylYhpEgwrmediPP4y7s0XtN1if/M/JYujg==}
 
   '@hookform/resolvers@3.9.0':
     resolution: {integrity: sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==}
@@ -2368,6 +2374,8 @@ snapshots:
   '@floating-ui/utils@0.2.7': {}
 
   '@fontsource-variable/nunito@5.0.19': {}
+
+  '@formkit/tempo@0.1.2': {}
 
   '@hookform/resolvers@3.9.0(react-hook-form@7.52.2(react@18.3.1))':
     dependencies:
