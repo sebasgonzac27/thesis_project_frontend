@@ -13,4 +13,5 @@ export const PrivateRoutes = {
   LOCATIONS: 'locations',
   PROFILE: 'profile',
   EVENTS: 'events',
+  PQRS: 'pqrs',
 }

@@ -11,6 +11,7 @@ export { default as Icon } from './shared/Icon'
 export { default as Navigation } from './home/Navigation'
 export { default as TeamsList } from './teams/TeamsList'
 export { default as EventsList } from './events/EventIndex'
+export { default as PqrsList } from './pqrs/PqrsList'
 export { default as Chatbot } from './chatbot/Chatbot'
 
 // UI

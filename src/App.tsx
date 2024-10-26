@@ -18,6 +18,7 @@ const LocationsPage = lazy(() => import('@/pages/locations/Locations'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
 const ChatbotPage = lazy(() => import('@/pages/chatbot/Chatbot'))
 const EventsPage = lazy(() => import('@/pages/events/Events'))
+const PqrsPage = lazy(() => import('@/pages/pqrs/Pqrs'))
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
               <Route path={PrivateRoutes.PROFILE} element={<ProfilePage />} />
               <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
               <Route path={PrivateRoutes.EVENTS} element={<EventsPage />} />
+              <Route path={PrivateRoutes.PQRS} element={<PqrsPage />} />
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
                 <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />

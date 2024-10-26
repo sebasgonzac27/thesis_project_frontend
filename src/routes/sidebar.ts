@@ -54,7 +54,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'PQRS',
-    path: '/pqrs',
+    path: `/${PrivateRoutes.PQRS}`,
     icon: 'Mailbox',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
