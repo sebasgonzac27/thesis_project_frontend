@@ -42,7 +42,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'Convenios',
-    path: '/agreements',
+    path: `/${PrivateRoutes.AGREEMENTS}`,
     icon: 'Handshake',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
