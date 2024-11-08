@@ -7,7 +7,7 @@ interface Props {
   user: User
 }
 
-export default function ProfileAvatar({ user }: Props) {
+export default function ProfileAvatar({ user }: Readonly<Props>) {
   return (
     <div className='flex flex-col md:flex-row items-center gap-2 md:gap-5'>
       <Avatar className='size-20 md:size-32 shadow-lg'>
@@ -15,7 +15,7 @@ export default function ProfileAvatar({ user }: Props) {
       </Avatar>
       <div className='flex flex-col text-center md:text-start md:flex-1'>
         <h2 className='text-2xl md:text-3xl font-bold'>
-          {user?.profile.nickname || `${user?.profile.first_name} ${user?.profile.last_name}`}
+          {user?.profile.nickname ?? `${user?.profile.first_name} ${user?.profile.last_name}`}
         </h2>
         {user?.profile.nickname && (
           <h3 className='text-xl md:text-2xl text-pretty'>{`${user?.profile.first_name} ${user?.profile.last_name}`}</h3>

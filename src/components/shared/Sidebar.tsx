@@ -37,7 +37,7 @@ export default function Sidebar() {
     const storageRole = localStorage.getItem('role_selected')
     const parsedRole = storageRole ? parseInt(JSON.parse(storageRole)) : null
 
-    const roleToSet = parsedRole || user.role_id
+    const roleToSet = parsedRole ?? user.role_id
 
     setRoleSelected(roleToSet as UserRole)
     localStorage.setItem('role_selected', roleToSet.toString())
@@ -50,7 +50,7 @@ export default function Sidebar() {
 
   const handleViewProfile = () => {
     onClick()
-    navigate(`/${PrivateRoutes.PROFILE}`)
+    navigate(`/${PrivateRoutes.PROFILE}/${user?.id}`)
   }
 
   const handleLogOut = () => {

@@ -1,18 +1,21 @@
-import useUserStore from '@/store/user'
 import Icon from '../shared/Icon'
 import { formatDate } from '@/utils'
 import { getLocation, getTeam } from '@/services'
 import { useEffect, useState } from 'react'
+import { User } from '@/models'
 
-export default function ProfileInfo() {
-  const { user } = useUserStore()
-  const [locationName, setLocationname] = useState('')
+interface Props {
+  user: User
+}
+
+export default function ProfileInfo({ user }: Readonly<Props>) {
+  const [locationName, setLocationName] = useState('')
 
   useEffect(() => {
     ;(async () => {
-      const team = await getTeam(user!.profile.team_id)
+      const team = await getTeam(user.profile.team_id)
       const location = await getLocation(team.location_id)
-      setLocationname(location.name)
+      setLocationName(location.name)
     })()
   }, [user])
 
@@ -22,7 +25,7 @@ export default function ProfileInfo() {
       <ul className='flex flex-col gap-3 items-start mt-4'>
         <li className='inline-flex gap-4'>
           <Icon name='Cake' />
-          <span>{formatDate(user!.profile.birthdate)}</span>
+          <span>{formatDate(user.profile.birthdate)}</span>
         </li>
         <li className='inline-flex gap-4'>
           <Icon name='MapPinHouse' />
@@ -30,19 +33,19 @@ export default function ProfileInfo() {
         </li>
         <li className='inline-flex gap-4 capitalize'>
           <Icon name='PersonStanding' />
-          <span>{user!.profile.genre}</span>
+          <span>{user.profile.genre}</span>
         </li>
         <li className='inline-flex gap-4'>
           <Icon name='IdCard' />
-          <span>{user!.profile.document_number}</span>
+          <span>{user.profile.document_number}</span>
         </li>
         <li className='inline-flex gap-4'>
           <Icon name='Mail' />
-          <span>{user!.email}</span>
+          <span>{user.email}</span>
         </li>
         <li className='inline-flex gap-4'>
           <Icon name='Phone' />
-          <span>{user!.profile.telephone}</span>
+          <span>{user.profile.telephone}</span>
         </li>
       </ul>
     </div>

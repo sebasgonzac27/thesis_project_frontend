@@ -40,7 +40,7 @@ function App() {
             {/* Aquí van las rutas que requieren autenticación */}
             <Route element={<AuthGuard />}>
               <Route path={PrivateRoutes.HOME} element={<HomePage />} />
-              <Route path={PrivateRoutes.PROFILE} element={<ProfilePage />} />
+              <Route path={`${PrivateRoutes.PROFILE}/:id`} element={<ProfilePage />} />
               <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
               <Route path={PrivateRoutes.EVENTS} element={<EventsPage />} />
               <Route path={PrivateRoutes.PQRS} element={<PqrsPage />} />
