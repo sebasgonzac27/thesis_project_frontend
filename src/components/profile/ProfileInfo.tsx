@@ -3,6 +3,7 @@ import { formatDate } from '@/utils'
 import { getLocation, getTeam } from '@/services'
 import { useEffect, useState } from 'react'
 import { User } from '@/models'
+import { Button } from '../ui/button'
 
 interface Props {
   user: User
@@ -21,7 +22,13 @@ export default function ProfileInfo({ user }: Readonly<Props>) {
 
   return (
     <div>
-      <h2 className='font-bold text-2xl '>Información</h2>
+      <div className='flex justify-between'>
+        <h2 className='font-bold text-2xl '>Información</h2>
+        <Button variant='secondary'>
+          <Icon name='Pencil' size={15} />
+          <span className='ml-2'>Editar</span>
+        </Button>
+      </div>
       <ul className='flex flex-col gap-3 items-start mt-4'>
         <li className='inline-flex gap-4'>
           <Icon name='Cake' />

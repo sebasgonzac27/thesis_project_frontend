@@ -10,3 +10,8 @@ export async function getUser(id: number): Promise<User> {
   const { data } = await api.get(`/users/${id}`)
   return data
 }
+
+export async function getMembershipCard(id: number, format: 'PDF' | 'PNG' = 'PNG'): Promise<Blob> {
+  const { data } = await api.get(`/users/${id}/membership-card?format=${format}`, { responseType: 'blob' })
+  return data
+}

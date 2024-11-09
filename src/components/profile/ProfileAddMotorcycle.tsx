@@ -60,13 +60,18 @@ export function ProfileAddMotorcycle({
     }
   }
 
-  const buttonProperties = useMemo(
-    () => ({
-      text: isSubmitting ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Agregar',
+  const buttonProperties = useMemo(() => {
+    let text = 'Agregar'
+    if (isSubmitting) {
+      text = 'Guardando...'
+    } else if (isEditing) {
+      text = 'Guardar cambios'
+    }
+    return {
+      text,
       disabled: isSubmitting,
-    }),
-    [isSubmitting],
-  )
+    }
+  }, [isSubmitting])
 
   useEffect(() => {
     ;(async () => {

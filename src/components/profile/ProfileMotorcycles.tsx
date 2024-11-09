@@ -5,6 +5,7 @@ import ProfileMotorcycleCard from './ProfileMotorcycleCard'
 import { Motorcycle, User } from '@/models'
 import { getMotorcycles } from '@/services/motorcycle'
 import { ProfileAddMotorcycle } from './ProfileAddMotorcycle'
+import { Button } from '../ui/button'
 
 interface Props {
   user: User
@@ -23,17 +24,17 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
 
   return (
     <div>
-      <h2 className='font-bold text-2xl'>Motocicletas</h2>
-      <div className='flex gap-3 overflow-x-auto mt-5 items-stretch'>
+      <div className='flex justify-between items-center'>
+        <h2 className='font-bold text-2xl'>Motocicletas</h2>
+        <Button variant='secondary' onClick={() => setIsOpenModal(true)}>
+          <Icon name='Plus' size={20} />
+          <span className='ml-2'>Añadir</span>
+        </Button>
+      </div>
+      <div className='flex gap-3 overflow-x-auto mt-5 items-stretch pb-2'>
         {motorcycles.map(motorcycle => (
           <ProfileMotorcycleCard key={motorcycle.id} motorcycle={motorcycle} />
         ))}
-        <Card
-          className='hover:bg-accent p-4 flex flex-col justify-center items-center gap-2 max-w-40'
-          onClick={() => setIsOpenModal(true)}>
-          <Icon name='Plus' size={30} />
-          <p className='text-center text-pretty'>Añadir motocicleta</p>
-        </Card>
       </div>
       <ProfileAddMotorcycle
         isOpen={isOpenModal}

@@ -20,7 +20,7 @@ export default function ProfileMotorcycleCard({ motorcycle }: Readonly<Props>) {
   }, [motorcycle])
 
   return (
-    <Card className='hover:bg-accent p-2 max-w-40'>
+    <Card className='hover:bg-accent p-2 min-w-40'>
       <CardHeader>
         <Icon name='Bike' size={50} className='mx-auto' />
         <CardTitle className='text-xl text-center font-bold'>
