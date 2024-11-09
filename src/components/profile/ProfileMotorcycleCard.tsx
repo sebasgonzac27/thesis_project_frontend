@@ -13,10 +13,8 @@ export default function ProfileMotorcycleCard({ motorcycle }: Readonly<Props>) {
   const [brand, setBrand] = useState<Brand>()
 
   useEffect(() => {
-    console.log(motorcycle)
     ;(async () => {
       const brand = await getBrand(motorcycle.brand_id)
-      console.log(brand)
       setBrand(brand)
     })()
   }, [motorcycle])
@@ -30,10 +28,8 @@ export default function ProfileMotorcycleCard({ motorcycle }: Readonly<Props>) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <CardDescription>
-          <p className='text-primary font-bold'>{brand?.name}</p>
-          <p className='text-foreground'>{motorcycle.model}</p>
-        </CardDescription>
+        <CardDescription className='text-primary font-bold'>{brand?.name}</CardDescription>
+        <CardDescription className='text-foreground'>{motorcycle.model}</CardDescription>
       </CardContent>
     </Card>
   )

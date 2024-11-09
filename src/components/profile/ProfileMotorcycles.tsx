@@ -35,7 +35,12 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
           <p className='text-center text-pretty'>Añadir motocicleta</p>
         </Card>
       </div>
-      <ProfileAddMotorcycle isOpen={isOpenModal} onOpenchange={setIsOpenModal} userId={user.id} />
+      <ProfileAddMotorcycle
+        isOpen={isOpenModal}
+        onOpenchange={setIsOpenModal}
+        userId={user.id}
+        updateMotorcycles={motorcycle => setMotorcycles(prev => [...prev, motorcycle])}
+      />
     </div>
   )
 }

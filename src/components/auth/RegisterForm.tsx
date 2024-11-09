@@ -133,7 +133,7 @@ export default function RegisterForm() {
                   <Input
                     placeholder='Ingrese su apodo'
                     {...field}
-                    value={field.value || ''}
+                    value={field.value ?? ''}
                     onChange={({ target }) =>
                       target.value !== '' ? field.onChange(target.value) : field.onChange(null)
                     }
@@ -170,7 +170,7 @@ export default function RegisterForm() {
                   </FormControl>
                   <SelectContent>
                     {['Cédula de ciudadanía', 'Cédula de extranjería', 'Pasaporte'].map((document, index) => (
-                      <SelectItem value={document.toLowerCase()} key={`document-type-${index}`}>
+                      <SelectItem value={document.toLowerCase()} key={`document-type-${+index}`}>
                         {document}
                       </SelectItem>
                     ))}
