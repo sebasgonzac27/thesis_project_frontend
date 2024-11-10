@@ -54,7 +54,7 @@ export default function RootLayout({ title, children, withBreadcrumb = false }: 
             </Breadcrumb>
           )}
         </div>
-        {children}
+        <section className='pt-8'>{children}</section>
       </main>
     </>
   )

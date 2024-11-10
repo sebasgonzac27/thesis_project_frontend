@@ -17,12 +17,6 @@ export const SIDEBAR_ROUTES: Route[] = [
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
   {
-    name: 'Locaciones',
-    path: `/${PrivateRoutes.LOCATIONS}`,
-    icon: 'MapPin',
-    roles: [UserRole.ADMIN],
-  },
-  {
     name: 'Equipos',
     path: `/${PrivateRoutes.TEAMS}`,
     icon: 'ShieldHalf',
@@ -36,13 +30,13 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'Eventos',
-    path: '/events',
+    path: `/${PrivateRoutes.EVENTS}`,
     icon: 'CalendarDays',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
   {
     name: 'Convenios',
-    path: '/agreements',
+    path: `/${PrivateRoutes.AGREEMENTS}`,
     icon: 'Handshake',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
@@ -54,7 +48,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'PQRS',
-    path: '/pqrs',
+    path: `/${PrivateRoutes.PQRS}`,
     icon: 'Mailbox',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },

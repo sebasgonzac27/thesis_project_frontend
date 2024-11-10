@@ -16,7 +16,7 @@ export interface UserProfile {
   document_type: string
   document_number: string
   rh: string
-  birthdate: Date
+  birthdate: string
   genre: string
   photo: null
   team_id: number

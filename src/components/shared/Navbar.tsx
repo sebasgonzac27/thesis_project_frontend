@@ -6,7 +6,7 @@ import { useDashboardStore } from '@/store/dashboard'
 export default function Navbar() {
   const { isOpen, toggleOpen } = useDashboardStore()
   return (
-    <header className='fixed z-10 top-0 left-0 h-12 w-full border-b-2 border-accent flex items-center justify-between p-2 bg-background'>
+    <header className='fixed z-20 top-0 left-0 h-12 w-full border-b-2 border-accent flex items-center justify-between p-2 bg-primary text-primary-foreground'>
       <div>
         <Button variant='ghost' className='block md:hidden' onClick={toggleOpen}>
           <Icon name={isOpen ? 'X' : 'Menu'} />

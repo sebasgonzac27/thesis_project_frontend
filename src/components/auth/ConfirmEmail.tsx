@@ -9,7 +9,7 @@ interface Props {
   token: string
 }
 
-export default function ConfirmEmail({ token }: Props) {
+export default function ConfirmEmail({ token }: Readonly<Props>) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<boolean>(false)
 

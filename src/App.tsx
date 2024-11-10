@@ -14,9 +14,11 @@ const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPassword'))
 const HomePage = lazy(() => import('@/pages/home/Home'))
 const ProfilePage = lazy(() => import('@/pages/profile/Profile'))
-const LocationsPage = lazy(() => import('@/pages/locations/Locations'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
 const ChatbotPage = lazy(() => import('@/pages/chatbot/Chatbot'))
+const EventsPage = lazy(() => import('@/pages/events/Events'))
+const PqrsPage = lazy(() => import('@/pages/pqrs/Pqrs'))
+const AgreementPage = lazy(() => import('@/pages/agreements/Agreements'))
 
 function App() {
   return (
@@ -37,10 +39,12 @@ function App() {
             {/* Aquí van las rutas que requieren autenticación */}
             <Route element={<AuthGuard />}>
               <Route path={PrivateRoutes.HOME} element={<HomePage />} />
-              <Route path={PrivateRoutes.PROFILE} element={<ProfilePage />} />
+              <Route path={`${PrivateRoutes.PROFILE}/:id`} element={<ProfilePage />} />
               <Route path={PrivateRoutes.CHATBOT} element={<ChatbotPage />} />
+              <Route path={PrivateRoutes.EVENTS} element={<EventsPage />} />
+              <Route path={PrivateRoutes.PQRS} element={<PqrsPage />} />
+              <Route path={PrivateRoutes.AGREEMENTS} element={<AgreementPage />} />
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
-                <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               </Route>
             </Route>
