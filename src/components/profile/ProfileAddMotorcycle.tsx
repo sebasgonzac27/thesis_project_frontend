@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Brand, Motorcycle } from '@/models'
 import { getBrands } from '@/services/brand'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
-import { createMotorcycle, deleteMotorcycle, updateMotorcycle } from '@/services/motorcycle'
+import { createMotorcycle } from '@/services/motorcycle'
 import { AxiosError } from 'axios'
 import { DialogTitle } from '@radix-ui/react-dialog'
 
@@ -80,8 +80,8 @@ export function ProfileAddMotorcycle({ isOpen, onOpenchange, userId, addMotorcyc
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Agregar motocicleta</DialogTitle>
+          <DialogDescription>Completa la información para crear una nueva motocicleta.</DialogDescription>
         </DialogHeader>
-        <DialogDescription>Completa la información para crear una nueva motocicleta.</DialogDescription>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormMessage>{errors.root?.message}</FormMessage>

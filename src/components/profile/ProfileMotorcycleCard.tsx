@@ -46,7 +46,7 @@ export default function ProfileMotorcycleCard({ motorcycle, removeMotorcycle }: 
     <Card className='p-2 min-w-40 relative'>
       <Dialog>
         <DialogTrigger asChild>
-          <div className='absolute top-2 right-2'>
+          <div className='absolute top-2 right-2 hover:bg-accent rounded-full p-1 '>
             <Icon name='CircleMinus' color='red' />
           </div>
         </DialogTrigger>
@@ -55,7 +55,7 @@ export default function ProfileMotorcycleCard({ motorcycle, removeMotorcycle }: 
             <DialogTitle>Eliminar motocicleta</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            ¿Estás seguro que deseas eliminar la motocicleta con placa {motorcycle.license_plate}?
+            ¿Estás seguro que deseas eliminar la motocicleta con placa <b>{motorcycle.license_plate}</b>?
           </DialogDescription>
           <DialogFooter>
             <div className='flex justify-end gap-3 mt-5'>

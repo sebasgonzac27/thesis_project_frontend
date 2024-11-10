@@ -207,7 +207,7 @@ export default function RegisterForm() {
                   </FormControl>
                   <SelectContent>
                     {['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map((rh, index) => (
-                      <SelectItem value={rh} key={`rh-${index}`}>
+                      <SelectItem value={rh} key={`rh-${+index}`}>
                         {rh}
                       </SelectItem>
                     ))}
@@ -244,7 +244,7 @@ export default function RegisterForm() {
                   </FormControl>
                   <SelectContent>
                     {['Masculino', 'Femenino', 'Otro'].map((genre, index) => (
-                      <SelectItem value={genre.toLowerCase()} key={`genre-${index}`}>
+                      <SelectItem value={genre.toLowerCase()} key={`genre-${+index}`}>
                         {genre}
                       </SelectItem>
                     ))}

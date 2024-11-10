@@ -17,12 +17,6 @@ export const SIDEBAR_ROUTES: Route[] = [
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
   {
-    name: 'Locaciones',
-    path: `/${PrivateRoutes.LOCATIONS}`,
-    icon: 'MapPin',
-    roles: [UserRole.ADMIN],
-  },
-  {
     name: 'Equipos',
     path: `/${PrivateRoutes.TEAMS}`,
     icon: 'ShieldHalf',

@@ -15,25 +15,19 @@ export default function ProfilePage() {
   const [isMyProfile, setIsMyProfile] = useState(false)
 
   useEffect(() => {
-    if (!id) return
-
-    const idNumber = parseInt(id)
-
-    // Verifica si es el perfil del usuario actual
-    const esMiPerfil = idNumber === user?.id
-    setIsMyProfile(esMiPerfil)
-
-    // Si no es el perfil del usuario actual, carga el perfil del usuario desde el servicio
-    if (!esMiPerfil) {
-      fetchUserProfile(idNumber)
+    if (id) {
+      fetchUserProfile(+id).then(fetchedUser => {
+        if (!fetchedUser) return
+        setUserProfile(fetchedUser)
+        setIsMyProfile(user?.id === fetchedUser.id)
+      })
     }
-  }, [])
+  }, [id])
 
-  // Función para cargar el perfil del usuario
   const fetchUserProfile = async (id: number) => {
     try {
       const fetchedUser = await getUser(id)
-      setUserProfile(fetchedUser)
+      return fetchedUser
     } catch (error) {
       console.error('Error al cargar el perfil del usuario:', error)
     }
@@ -44,7 +38,7 @@ export default function ProfilePage() {
       <ProfileAvatar user={userProfile} />
       <hr className='my-8'></hr>
       <div className='grid grid-cols-1 md:grid-cols-3 mt-4 gap-5'>
-        <ProfileInfo user={userProfile} />
+        <ProfileInfo user={userProfile} setUpdatedUser={setUserProfile} />
         <div className='md:col-span-2'>
           <ProfileMotorcycles user={userProfile} />
         </div>
