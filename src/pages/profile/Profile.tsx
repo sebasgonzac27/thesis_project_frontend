@@ -14,21 +14,30 @@ export default function ProfilePage() {
   const [userProfile, setUserProfile] = useState<User>(user!)
   const [isMyProfile, setIsMyProfile] = useState(false)
 
-  const fetchUserProfile = async (id: number) => {
-    const user = await getUser(id)
-    setUserProfile(user)
-  }
-
   useEffect(() => {
     if (!id) return
+
     const idNumber = parseInt(id)
-    setIsMyProfile(idNumber === user?.id)
-    if (!isMyProfile) {
-      ;(async () => {
-        await fetchUserProfile(idNumber)
-      })()
+
+    // Verifica si es el perfil del usuario actual
+    const esMiPerfil = idNumber === user?.id
+    setIsMyProfile(esMiPerfil)
+
+    // Si no es el perfil del usuario actual, carga el perfil del usuario desde el servicio
+    if (!esMiPerfil) {
+      fetchUserProfile(idNumber)
     }
-  }, [id])
+  }, [])
+
+  // Función para cargar el perfil del usuario
+  const fetchUserProfile = async (id: number) => {
+    try {
+      const fetchedUser = await getUser(id)
+      setUserProfile(fetchedUser)
+    } catch (error) {
+      console.error('Error al cargar el perfil del usuario:', error)
+    }
+  }
 
   return (
     <RootLayout title={`${isMyProfile ? 'Mi' : ''} Perfil`}>

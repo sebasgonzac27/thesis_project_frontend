@@ -18,7 +18,7 @@ export default function ProfileInfo({ user }: Readonly<Props>) {
       const location = await getLocation(team.location_id)
       setLocationName(location.name)
     })()
-  }, [])
+  }, [user])
 
   return (
     <div>

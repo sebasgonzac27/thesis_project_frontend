@@ -6,6 +6,7 @@ import { getMembershipCard } from '@/services'
 import { toast } from 'sonner'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
+import { useEffect } from 'react'
 
 interface Props {
   user: User

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Icon from '../shared/Icon'
 import ProfileMotorcycleCard from './ProfileMotorcycleCard'
 import { Motorcycle, User } from '@/models'
@@ -15,12 +15,14 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([])
   const [isOpenModal, setIsOpenModal] = useState(false)
 
+  const userId = useMemo(() => user.id, [user])
+
   useEffect(() => {
     ;(async () => {
-      const data = await getUserMotorcycles(user.id)
+      const data = await getUserMotorcycles(userId)
       setMotorcycles(data)
     })()
-  }, [])
+  }, [userId])
 
   const handleAddMotorcycle = () => {
     setIsOpenModal(true)
@@ -51,7 +53,7 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
           ))}
         </div>
       ) : (
-        <Alert className='bg-info'>
+        <Alert className='bg-info text-primary-foreground'>
           <AlertTitle>Aún no tienes motocicletas registradas</AlertTitle>
           <AlertDescription>Registra tus motocicletas para verlas en esta sección</AlertDescription>
         </Alert>
@@ -60,7 +62,7 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
       <ProfileAddMotorcycle
         isOpen={isOpenModal}
         onOpenchange={setIsOpenModal}
-        userId={user.id}
+        userId={userId}
         addMotorcycle={addMotorcycle}
       />
     </div>
