@@ -27,6 +27,6 @@ export async function updateMotorcycle(id: number, motorcycle: z.infer<typeof mo
 }
 
 export async function deleteMotorcycle(id: number): Promise<void> {
-  const { data } = await api.delete(`/motorcycles/${id}`)
+  const { data } = await api.delete(`/motorcycles/${id}?hard=true`)
   return data
 }

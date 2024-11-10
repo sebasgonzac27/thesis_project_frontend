@@ -47,11 +47,11 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
       {motorcycles.length > 0 ? (
         <div className='flex gap-3 overflow-x-auto items-stretch pb-2'>
           {motorcycles.map(motorcycle => (
-            <ProfileMotorcycleCard key={motorcycle.id} motorcycle={motorcycle} />
+            <ProfileMotorcycleCard key={motorcycle.id} motorcycle={motorcycle} removeMotorcycle={removeMotorcycle} />
           ))}
         </div>
       ) : (
-        <Alert>
+        <Alert className='bg-info'>
           <AlertTitle>Aún no tienes motocicletas registradas</AlertTitle>
           <AlertDescription>Registra tus motocicletas para verlas en esta sección</AlertDescription>
         </Alert>
