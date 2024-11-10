@@ -18,11 +18,11 @@ export default function ProfileInfo({ user }: Readonly<Props>) {
       const location = await getLocation(team.location_id)
       setLocationName(location.name)
     })()
-  }, [user])
+  }, [])
 
   return (
     <div>
-      <div className='flex justify-between'>
+      <div className='flex justify-between items-center'>
         <h2 className='font-bold text-2xl '>Información</h2>
         <Button variant='secondary'>
           <Icon name='Pencil' size={15} />

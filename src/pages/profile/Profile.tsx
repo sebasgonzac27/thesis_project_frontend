@@ -33,7 +33,8 @@ export default function ProfilePage() {
   return (
     <RootLayout title={`${isMyProfile ? 'Mi' : ''} Perfil`}>
       <ProfileAvatar user={userProfile} />
-      <div className='grid grid-cols-1 md:grid-cols-3 mt-8 gap-5'>
+      <hr className='my-8'></hr>
+      <div className='grid grid-cols-1 md:grid-cols-3 mt-4 gap-5'>
         <ProfileInfo user={userProfile} />
         <div className='md:col-span-2'>
           <ProfileMotorcycles user={userProfile} />

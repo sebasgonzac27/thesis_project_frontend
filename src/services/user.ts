@@ -1,4 +1,4 @@
-import { User } from '@/models'
+import { Motorcycle, User } from '@/models'
 import { api } from '@/utils'
 
 export async function getUserMe(): Promise<User> {
@@ -13,5 +13,10 @@ export async function getUser(id: number): Promise<User> {
 
 export async function getMembershipCard(id: number, format: 'PDF' | 'PNG' = 'PNG'): Promise<Blob> {
   const { data } = await api.get(`/users/${id}/membership-card?format=${format}`, { responseType: 'blob' })
+  return data
+}
+
+export async function getUserMotorcycles(id: number): Promise<Motorcycle[]> {
+  const { data } = await api.get(`/users/${id}/motorcycles`)
   return data
 }

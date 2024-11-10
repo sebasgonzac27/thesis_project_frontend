@@ -20,3 +20,13 @@ export async function createMotorcycle(motorcycle: z.infer<typeof motorcycleSche
   const { data } = await api.post('/motorcycles', motorcycle)
   return data
 }
+
+export async function updateMotorcycle(id: number, motorcycle: z.infer<typeof motorcycleSchema>): Promise<Motorcycle> {
+  const { data } = await api.put(`/motorcycles/${id}`, motorcycle)
+  return data
+}
+
+export async function deleteMotorcycle(id: number): Promise<void> {
+  const { data } = await api.delete(`/motorcycles/${id}`)
+  return data
+}
