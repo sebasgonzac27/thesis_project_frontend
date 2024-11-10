@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { getTeams, updateUser } from '@/services'
 import { Button } from '../ui/button'
 import { AxiosError } from 'axios'
+import { toast } from 'sonner'
+import { useAppStore } from '@/store/app'
 
 interface Props {
   user: User
@@ -20,6 +22,10 @@ interface Props {
 }
 
 export function ProfileEditUser({ user, isOpen, setOpen, setUpdatedUser }: Readonly<Props>) {
+  const { role_selected } = useAppStore()
+
+  const isAdmin = useMemo(() => role_selected === UserRole.ADMIN, [role_selected])
+
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -68,7 +74,7 @@ export function ProfileEditUser({ user, isOpen, setOpen, setUpdatedUser }: Reado
       setUpdatedUser(updatedUser)
       setOpen(false)
     } catch (error) {
-      console.error(error)
+      toast.error('Ocurrió un error al actualizar el usuario')
       if (error instanceof AxiosError) {
         setError('root', { message: error.response?.data.detail })
       }
@@ -167,49 +173,54 @@ export function ProfileEditUser({ user, isOpen, setOpen, setUpdatedUser }: Reado
                   </FormItem>
                 )}
               />
-              <FormField
-                control={control}
-                name='status'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Estado</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder='Seleccione el estado' />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={UserStatus.ACTIVE}>Activo</SelectItem>
-                        <SelectItem value={UserStatus.INACTIVE}>Inactivo</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage>{errors.profile?.team_id?.message}</FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name='role_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rol</FormLabel>
-                    <Select onValueChange={value => field.onChange(parseInt(value))} value={field.value.toString()}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder='Seleccione el estado' />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={UserRole.ADMIN.toString()}>Administrador</SelectItem>
-                        <SelectItem value={UserRole.LEADER.toString()}>Líder</SelectItem>
-                        <SelectItem value={UserRole.MEMBER.toString()}>Piloto</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage>{errors.profile?.team_id?.message}</FormMessage>
-                  </FormItem>
-                )}
-              />
+              {isAdmin && (
+                <>
+                  <FormField
+                    control={control}
+                    name='status'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Estado</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Seleccione el estado' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={UserStatus.ACTIVE}>Activo</SelectItem>
+                            <SelectItem value={UserStatus.INACTIVE}>Inactivo</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage>{errors.profile?.team_id?.message}</FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name='role_id'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Rol</FormLabel>
+                        <Select onValueChange={value => field.onChange(parseInt(value))} value={field.value.toString()}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Seleccione el estado' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={UserRole.ADMIN.toString()}>Administrador</SelectItem>
+                            <SelectItem value={UserRole.LEADER.toString()}>Líder</SelectItem>
+                            <SelectItem value={UserRole.MEMBER.toString()}>Piloto</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage>{errors.profile?.team_id?.message}</FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+
               <Button className='mt-4 w-full' disabled={buttonProperties.disabled}>
                 {buttonProperties.text}
               </Button>

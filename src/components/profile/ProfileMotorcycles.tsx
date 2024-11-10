@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import Icon from '../shared/Icon'
 import ProfileMotorcycleCard from './ProfileMotorcycleCard'
-import { Motorcycle, User } from '@/models'
+import { Motorcycle, User, UserRole } from '@/models'
 import { ProfileAddMotorcycle } from './ProfileAddMotorcycle'
 import { Button } from '../ui/button'
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert'
 import { getUserMotorcycles } from '@/services'
+import useUserStore from '@/store/user'
+import { useAppStore } from '@/store/app'
 
 interface Props {
   user: User
@@ -14,6 +16,11 @@ interface Props {
 export default function ProfileMotorcycles({ user }: Readonly<Props>) {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([])
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const { isSameUser } = useUserStore()
+  const { role_selected } = useAppStore()
+
+  const isMyProfile = useMemo(() => isSameUser(user.id), [user])
+  const isAdmin = useMemo(() => role_selected === UserRole.ADMIN, [role_selected])
 
   const userId = useMemo(() => user.id, [user])
 
@@ -41,10 +48,12 @@ export default function ProfileMotorcycles({ user }: Readonly<Props>) {
     <div>
       <div className='flex justify-between items-center mb-5'>
         <h2 className='font-bold text-2xl'>Motocicletas</h2>
-        <Button variant='secondary' onClick={handleAddMotorcycle}>
-          <Icon name='Plus' size={20} />
-          <span className='ml-2'>Añadir</span>
-        </Button>
+        {(isMyProfile || isAdmin) && (
+          <Button variant='secondary' onClick={handleAddMotorcycle}>
+            <Icon name='Plus' size={20} />
+            <span className='ml-2'>Añadir</span>
+          </Button>
+        )}
       </div>
       {motorcycles.length > 0 ? (
         <div className='flex gap-3 overflow-x-auto items-stretch pb-2'>

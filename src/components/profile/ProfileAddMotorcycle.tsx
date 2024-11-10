@@ -36,6 +36,10 @@ export function ProfileAddMotorcycle({ isOpen, onOpenchange, userId, addMotorcyc
     mode: 'all',
   })
 
+  useEffect(() => {
+    form.setValue('owner_id', userId)
+  }, [userId])
+
   const { handleSubmit, control, formState, setError } = form
   const { errors, isSubmitting } = formState
 
