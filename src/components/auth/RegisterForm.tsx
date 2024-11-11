@@ -133,7 +133,7 @@ export default function RegisterForm() {
                   <Input
                     placeholder='Ingrese su apodo'
                     {...field}
-                    value={field.value || ''}
+                    value={field.value ?? ''}
                     onChange={({ target }) =>
                       target.value !== '' ? field.onChange(target.value) : field.onChange(null)
                     }
@@ -170,7 +170,7 @@ export default function RegisterForm() {
                   </FormControl>
                   <SelectContent>
                     {['Cédula de ciudadanía', 'Cédula de extranjería', 'Pasaporte'].map((document, index) => (
-                      <SelectItem value={document.toLowerCase()} key={`document-type-${index}`}>
+                      <SelectItem value={document.toLowerCase()} key={`document-type-${+index}`}>
                         {document}
                       </SelectItem>
                     ))}
@@ -207,7 +207,7 @@ export default function RegisterForm() {
                   </FormControl>
                   <SelectContent>
                     {['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map((rh, index) => (
-                      <SelectItem value={rh} key={`rh-${index}`}>
+                      <SelectItem value={rh} key={`rh-${+index}`}>
                         {rh}
                       </SelectItem>
                     ))}
@@ -244,7 +244,7 @@ export default function RegisterForm() {
                   </FormControl>
                   <SelectContent>
                     {['Masculino', 'Femenino', 'Otro'].map((genre, index) => (
-                      <SelectItem value={genre.toLowerCase()} key={`genre-${index}`}>
+                      <SelectItem value={genre.toLowerCase()} key={`genre-${+index}`}>
                         {genre}
                       </SelectItem>
                     ))}

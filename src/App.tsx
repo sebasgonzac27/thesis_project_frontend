@@ -14,7 +14,6 @@ const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPassword'))
 const HomePage = lazy(() => import('@/pages/home/Home'))
 const ProfilePage = lazy(() => import('@/pages/profile/Profile'))
-const LocationsPage = lazy(() => import('@/pages/locations/Locations'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
 const ChatbotPage = lazy(() => import('@/pages/chatbot/Chatbot'))
 const EventsPage = lazy(() => import('@/pages/events/Events'))
@@ -48,7 +47,6 @@ function App() {
               <Route path={PrivateRoutes.AGREEMENTS} element={<AgreementPage />} />
               <Route path={PrivateRoutes.POSTS} element={<PostPage />} />
               <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
-                <Route path={PrivateRoutes.LOCATIONS} element={<LocationsPage />} />
                 <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               </Route>
             </Route>

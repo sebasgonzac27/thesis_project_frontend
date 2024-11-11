@@ -10,7 +10,6 @@ export const PrivateRoutes = {
   HOME: 'home',
   TEAMS: 'teams',
   CHATBOT: 'chatbot',
-  LOCATIONS: 'locations',
   PROFILE: 'profile',
   EVENTS: 'events',
   PQRS: 'pqrs',
