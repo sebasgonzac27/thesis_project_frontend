@@ -14,6 +14,7 @@ export { default as EventsList } from './events/EventIndex'
 export { default as PqrsList } from './pqrs/PqrsList'
 export { default as Chatbot } from './chatbot/Chatbot'
 export { default as AgreementList } from './agreements/AgreementList'
+export { default as PostList } from './posts/PostList'
 
 // UI
 export * from './shared/Icon'

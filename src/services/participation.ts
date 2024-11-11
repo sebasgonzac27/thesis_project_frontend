@@ -20,7 +20,7 @@ export async function getParticipation(eventId: number, userId: number): Promise
 
 export async function createParticipation(eventId: number, userId: number): Promise<Response<Participation>> {
   const { data } = await api.post(`/events/${eventId}/users/${userId}/participations`, {
-    attended: false,
+    attended: true,
     event_id: eventId,
     member_id: userId
   })

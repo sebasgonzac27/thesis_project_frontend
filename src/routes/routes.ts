@@ -15,4 +15,5 @@ export const PrivateRoutes = {
   EVENTS: 'events',
   PQRS: 'pqrs',
   AGREEMENTS: 'agreements',
+  POSTS: 'posts',
 }

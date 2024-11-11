@@ -53,3 +53,10 @@ export interface Participation {
   event_id: number
   member_id: number
 }
+
+export interface Review {
+  score: number
+  comment: string
+  event_id: number
+  author_id: number
+}
