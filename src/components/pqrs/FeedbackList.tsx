@@ -127,7 +127,12 @@ export function FeedbackList({ onCreateNew, onSelectFeedback }: Readonly<Feedbac
       </div>
 
       <div className="grid gap-4">
-        {displayedFeedbacks.map((feedback) => (
+        {displayedFeedbacks.length === 0 ? (
+          <Card className="p-4 mt-4">
+            <p className="text-center text-gray-500">No hay nada que mostrar aquí</p>
+          </Card>
+        ) : (
+        displayedFeedbacks.map((feedback) => (
           <Card
             key={feedback.id}
             className="hover:bg-gray-50 cursor-pointer"
@@ -153,7 +158,7 @@ export function FeedbackList({ onCreateNew, onSelectFeedback }: Readonly<Feedbac
               </p>
             </CardContent>
           </Card>
-        ))}
+        )))}
       </div>
     </div>
   );

@@ -42,7 +42,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'Publicaciones',
-    path: '/posts',
+    path: `/${PrivateRoutes.POSTS}`,
     icon: 'Newspaper',
     roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },

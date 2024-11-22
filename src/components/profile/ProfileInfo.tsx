@@ -1,10 +1,12 @@
 import Icon from '../shared/Icon'
 import { formatDate } from '@/utils'
 import { getLocation, getTeam } from '@/services'
-import { useEffect, useState } from 'react'
-import { User } from '@/models'
+import { useEffect, useMemo, useState } from 'react'
+import { User, UserRole } from '@/models'
 import { Button } from '../ui/button'
 import { ProfileEditUser } from './ProfileEditUser'
+import useUserStore from '@/store/user'
+import { useAppStore } from '@/store/app'
 
 interface Props {
   user: User
@@ -14,6 +16,11 @@ interface Props {
 export default function ProfileInfo({ user, setUpdatedUser }: Readonly<Props>) {
   const [locationName, setLocationName] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const { isSameUser } = useUserStore()
+  const { role_selected } = useAppStore()
+
+  const isMyProfile = useMemo(() => isSameUser(user.id), [user])
+  const isAdmin = useMemo(() => role_selected === UserRole.ADMIN, [role_selected])
 
   useEffect(() => {
     ;(async () => {
@@ -24,6 +31,7 @@ export default function ProfileInfo({ user, setUpdatedUser }: Readonly<Props>) {
   }, [user])
 
   const handleEditInfo = () => {
+    if (!isMyProfile && !isAdmin) return
     setIsOpen(true)
   }
 
@@ -32,10 +40,12 @@ export default function ProfileInfo({ user, setUpdatedUser }: Readonly<Props>) {
       <div>
         <div className='flex justify-between items-center'>
           <h2 className='font-bold text-2xl '>Información</h2>
-          <Button variant='secondary' onClick={handleEditInfo}>
-            <Icon name='Pencil' size={15} />
-            <span className='ml-2'>Editar</span>
-          </Button>
+          {(isMyProfile || isAdmin) && (
+            <Button variant='secondary' onClick={handleEditInfo}>
+              <Icon name='Pencil' size={15} />
+              <span className='ml-2'>Editar</span>
+            </Button>
+          )}
         </div>
         <ul className='flex flex-col gap-3 items-start mt-4'>
           <li className='inline-flex gap-4'>

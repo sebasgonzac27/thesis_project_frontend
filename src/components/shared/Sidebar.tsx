@@ -67,7 +67,7 @@ export default function Sidebar() {
   return (
     <aside
       className={clsx(
-        `bg-background md:border-r-2 border-accent absolute w-screen h-screen md:fixed top-0 md:left-0 md:h-full md:w-[300px] pt-14 flex flex-col transition-all duration-300 ease-in-out z-10`,
+        `bg-background md:border-r-2 border-accent fixed w-screen h-screen md:fixed top-0 md:left-0 md:h-full md:w-[300px] pt-14 flex flex-col transition-all duration-300 ease-in-out z-10`,
         {
           '-left-full': !isOpen,
           'left-0': isOpen,

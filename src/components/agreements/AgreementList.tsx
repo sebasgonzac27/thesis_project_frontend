@@ -34,11 +34,14 @@ import { agreementService, companyService } from '@/services'
 import useUserStore from '@/store/user'
 import { format } from '@formkit/tempo'
 import { X, ArrowUpDown } from 'lucide-react'
+import { ScrollArea } from "@/components/ui/scroll-area";
+import CompanyModal from './CompanyModal'
 
 
 type StatusFilter = 'all' | 'active' | 'inactive'
 type SortField = 'name' | 'company' | 'start_date' | 'end_date' | 'active'
 type SortOrder = 'asc' | 'desc'
+type ModalType = 'view' | 'edit' | 'create' | null
 
 
 interface SortableHeaderProps {
@@ -70,6 +73,7 @@ export default function AgreementList() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState<string | undefined>('')
   const [modalOpen, setModalOpen] = useState(false)
+  const [modalType, setModalType] = useState<ModalType>(null)
   const [currentAgreement, setCurrentAgreement] = useState<Partial<Agreement> | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
@@ -137,10 +141,9 @@ export default function AgreementList() {
 
   useEffect(() => {
     loadAgreements()
-    if (isAdmin) {
-      loadCompanies()
-    }
-  }, [isAdmin])
+    loadCompanies()
+  }, [])
+
 
   const loadAgreements = async (searchValue?: string) => {
     try {
@@ -165,10 +168,14 @@ export default function AgreementList() {
     }
   }
 
-  const handleOpenModal = (agreement?: Agreement) => {
-    if (agreement) {
-      setCurrentAgreement(agreement)
-      setIsEditing(true)
+  const handleOpenModal = (agreement?: Agreement, type: ModalType = 'create') => {
+    if (type === 'edit' || type === 'view') {
+      setCurrentAgreement(agreement ? {
+        ...agreement,
+        // Convert string dates to Date objects
+        start_date: new Date(agreement.start_date),
+        end_date: new Date(agreement.end_date)
+      } : null)
     } else {
       setCurrentAgreement({
         name: '',
@@ -178,15 +185,15 @@ export default function AgreementList() {
         active: true,
         company_id: undefined
       })
-      setIsEditing(false)
     }
+    setModalType(type)
     setModalOpen(true)
   }
 
   const handleCloseModal = () => {
     setModalOpen(false)
     setCurrentAgreement(null)
-    setIsEditing(false)
+    setModalType(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -194,7 +201,7 @@ export default function AgreementList() {
     if (!currentAgreement) return
 
     try {
-      if (isEditing && currentAgreement.id) {
+      if (modalType === 'edit' && currentAgreement.id) {
         await agreementService.updateAgreement(currentAgreement.id, currentAgreement)
         toast.success('Convenio actualizado exitosamente')
       } else {
@@ -204,7 +211,7 @@ export default function AgreementList() {
       handleCloseModal()
       loadAgreements()
     } catch (error) {
-      toast.error(isEditing ? 'Error al actualizar el convenio' : 'Error al crear el convenio')
+      toast.error(modalType === 'edit' ? 'Error al actualizar el convenio' : 'Error al crear el convenio')
     }
   }
 
@@ -233,6 +240,142 @@ export default function AgreementList() {
   const handleClearSearch = () => {
     setSearchTerm('')
     loadAgreements()
+  }
+
+  const renderModalContent = () => {
+    if (!currentAgreement) return null
+
+    const isViewOnly = modalType === 'view'
+    const company = companies.find(c => c.id === currentAgreement.company_id)
+
+    const content = isViewOnly ? (
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Nombre</Label>
+          <div className="p-2 bg-secondary rounded-md">{currentAgreement.name}</div>
+        </div>
+        <div className="space-y-2">
+          <Label>Descripción</Label>
+          <div className="p-2 bg-secondary rounded-md">{currentAgreement.description}</div>
+        </div>
+        <div className="space-y-2">
+          <Label>Empresa</Label>
+          <div className="p-2 bg-secondary rounded-md">{company?.name}</div>
+        </div>
+        <div className="space-y-2">
+          <Label>Datos de contacto de la empresa</Label>
+          <div className="p-2 bg-secondary rounded-md">
+            <b>Persona de contacto:</b> {company?.contact_name} <br />
+            <b>Teléfono:</b> {company?.contact_telephone} <br />
+            <b>Dirección:</b> {company?.contact_address} <br />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label>Fecha Inicio</Label>
+            <div className="p-2 bg-secondary rounded-md">
+              {format(currentAgreement.start_date, 'long')}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label>Fecha Fin</Label>
+            <div className="p-2 bg-secondary rounded-md">
+              {format(currentAgreement.end_date, 'long')}
+            </div>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label>Estado</Label>
+          <div className="p-2">
+            <Badge variant={currentAgreement.active ? "default" : "secondary"}>
+              {currentAgreement.active ? "Activo" : "Inactivo"}
+            </Badge>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="name">Nombre</Label>
+          <Input
+            id="name"
+            value={currentAgreement.name ?? ''}
+            onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, name: e.target.value }))}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="description">Descripción</Label>
+          <Input
+            id="description"
+            value={currentAgreement.description ?? ''}
+            onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, description: e.target.value }))}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="company">Empresa</Label>
+          <Select
+            value={currentAgreement.company_id?.toString()}
+            onValueChange={(value) => setCurrentAgreement(prev => ({ ...prev!, company_id: Number(value) }))}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Seleccionar empresa" />
+            </SelectTrigger>
+            <SelectContent>
+              {companies.map((company) => (
+                <SelectItem key={company.id} value={company.id!.toString()}>
+                  {company.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="start_date">Fecha Inicio</Label>
+            <Input
+              id="start_date"
+              type="date"
+              value={currentAgreement.start_date?.toISOString().split('T')[0] ?? ''}
+              onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, start_date: new Date(e.target.value) }))}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="end_date">Fecha Fin</Label>
+            <Input
+              id="end_date"
+              type="date"
+              value={currentAgreement.end_date?.toISOString().split('T')[0] ?? ''}
+              onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, end_date: new Date(e.target.value) }))}
+              required
+            />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="active">Estado</Label>
+          <Select
+            value={currentAgreement.active?.toString()}
+            onValueChange={(value) => setCurrentAgreement(prev => ({ ...prev!, active: value === 'true' }))}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Seleccionar estado" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">Activo</SelectItem>
+              <SelectItem value="false">Inactivo</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </form>
+    )
+
+    return (
+      <ScrollArea className="max-h-[60vh] px-1">
+        {content}
+      </ScrollArea>
+    )
   }
 
   if (loading) {
@@ -269,9 +412,12 @@ export default function AgreementList() {
           </Button>
         </div>
         {isAdmin && (
-          <Button onClick={() => handleOpenModal()}>
-            Nuevo Convenio
-          </Button>
+          <div className="flex gap-2">
+            <CompanyModal onCompanyCreated={loadCompanies} />
+            <Button onClick={() => handleOpenModal(undefined, 'create')}>
+              Nuevo Convenio
+            </Button>
+          </div>
         )}
       </div>
 
@@ -325,7 +471,7 @@ export default function AgreementList() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => navigate(`/agreements/${agreement.id}`)}
+                      onClick={() => handleOpenModal(agreement, 'view')}
                     >
                       Ver
                     </Button>
@@ -334,7 +480,7 @@ export default function AgreementList() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleOpenModal(agreement)}
+                          onClick={() => handleOpenModal(agreement, 'edit')}
                         >
                           Editar
                         </Button>
@@ -359,97 +505,34 @@ export default function AgreementList() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
-              {isEditing ? 'Editar Convenio' : 'Nuevo Convenio'}
+              {modalType === 'view' && 'Detalles del Convenio'}
+              {modalType === 'edit' && 'Editar Convenio'}
+              {modalType === 'create' && 'Nuevo Convenio'}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nombre</Label>
-              <Input
-                id="name"
-                value={currentAgreement?.name ?? ''}
-                onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, name: e.target.value }))}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="description">Descripción</Label>
-              <Input
-                id="description"
-                value={currentAgreement?.description ?? ''}
-                onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, description: e.target.value }))}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="company">Empresa</Label>
-              <Select
-                value={currentAgreement?.company_id?.toString()}
-                onValueChange={(value) => setCurrentAgreement(prev => ({ ...prev!, company_id: Number(value) }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar empresa" />
-                </SelectTrigger>
-                <SelectContent>
-                  {companies.map((company) => (
-                    <SelectItem key={company.id} value={company.id!.toString()}>
-                      {company.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="start_date">Fecha Inicio</Label>
-                <Input
-                  id="start_date"
-                  type="date"
-                  value={currentAgreement?.start_date?.toString().split('T')[0] ?? ''}
-                  onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, start_date: new Date(e.target.value) }))}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="end_date">Fecha Fin</Label>
-                <Input
-                  id="end_date"
-                  type="date"
-                  value={currentAgreement?.end_date?.toString().split('T')[0] ?? ''}
-                  onChange={(e) => setCurrentAgreement(prev => ({ ...prev!, end_date: new Date(e.target.value) }))}
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="active">Estado</Label>
-              <Select
-                value={currentAgreement?.active?.toString()}
-                onValueChange={(value) => setCurrentAgreement(prev => ({ ...prev!, active: value === 'true' }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar estado" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">Activo</SelectItem>
-                  <SelectItem value="false">Inactivo</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={handleCloseModal}>
-                Cancelar
+          {renderModalContent()}
+          <DialogFooter>
+            {modalType === 'view' ? (
+              <Button onClick={handleCloseModal}>
+                Cerrar
               </Button>
-              <Button type="submit">
-                {isEditing ? 'Guardar cambios' : 'Crear convenio'}
-              </Button>
-            </DialogFooter>
-          </form>
+            ) : (
+              <>
+                <Button type="button" variant="outline" onClick={handleCloseModal}>
+                  Cancelar
+                </Button>
+                <Button onClick={handleSubmit}>
+                  {modalType === 'edit' ? 'Guardar cambios' : 'Crear convenio'}
+                </Button>
+              </>
+            )}
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
   )
 }
+
 
 function LoadingSkeleton() {
   return (
