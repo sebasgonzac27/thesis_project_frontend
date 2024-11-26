@@ -46,9 +46,7 @@ function App() {
               <Route path={PrivateRoutes.PQRS} element={<PqrsPage />} />
               <Route path={PrivateRoutes.AGREEMENTS} element={<AgreementPage />} />
               <Route path={PrivateRoutes.POSTS} element={<PostPage />} />
-              <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
-                <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
-              </Route>
+              <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
             </Route>
           </RoutesWithNotFound>
         </BrowserRouter>

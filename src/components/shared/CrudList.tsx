@@ -39,7 +39,7 @@ export default function CrudList<T>({
   onUpdate,
   onDelete,
   modalFields,
-}: CrudListProps<T>) {
+}: Readonly<CrudListProps<T>>) {
   const [items, setItems] = useState<T[]>([])
   const [pagination, setPagination] = useState<PaginationT>()
   const {

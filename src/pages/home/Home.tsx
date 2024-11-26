@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <RootLayout>
       <p className='text-3xl'>
-        Hola, <span className='font-bold capitalize'>{nickname ? nickname : first_name}</span>✌️
+        Hola, <span className='font-bold capitalize'>{nickname ?? first_name}</span>✌️
       </p>
       <Navigation />
     </RootLayout>
