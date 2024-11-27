@@ -20,7 +20,7 @@ export const SIDEBAR_ROUTES: Route[] = [
     name: 'Equipos',
     path: `/${PrivateRoutes.TEAMS}`,
     icon: 'ShieldHalf',
-    roles: [UserRole.ADMIN],
+    roles: [UserRole.ADMIN, UserRole.LEADER, UserRole.MEMBER],
   },
   {
     name: 'Usuarios',
