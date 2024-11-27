@@ -355,9 +355,9 @@ export default function AgreementList() {
 
   return (
     <div className='space-y-4'>
-      <div className='flex justify-between items-center'>
-        <div className='flex items-center gap-4'>
-          <div className='relative w-[300px]'>
+      <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
+        <div className='flex  items-center gap-4'>
+          <div className='relative'>
             <Input
               placeholder='Buscar convenios...'
               value={searchTerm ?? ''}

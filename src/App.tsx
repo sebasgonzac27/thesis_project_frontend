@@ -1,11 +1,10 @@
 import { BrowserRouter, Navigate, Route } from 'react-router-dom'
 import { PrivateRoutes, PublicRoutes } from '@/routes'
-import { AuthGuard, RoleGuard } from '@/guards'
+import { AuthGuard } from '@/guards'
 import { Suspense, lazy } from 'react'
 import { RoutesWithNotFound } from '@/utils'
 import { ThemeProvider, Toaster } from '@/components'
 import LoaderSuspense from '@/pages/LoaderSuspense'
-import { UserRole } from '@/models'
 
 const LoginPage = lazy(() => import('@/pages/auth/Login'))
 const RegisterPage = lazy(() => import('@/pages/auth/Register'))
@@ -15,6 +14,7 @@ const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPassword'))
 const HomePage = lazy(() => import('@/pages/home/Home'))
 const ProfilePage = lazy(() => import('@/pages/profile/Profile'))
 const TeamsPage = lazy(() => import('@/pages/teams/Teams'))
+const TeamPage = lazy(() => import('@/pages/teams/Team'))
 const ChatbotPage = lazy(() => import('@/pages/chatbot/Chatbot'))
 const EventsPage = lazy(() => import('@/pages/events/Events'))
 const PqrsPage = lazy(() => import('@/pages/pqrs/Pqrs'))
@@ -47,6 +47,7 @@ function App() {
               <Route path={PrivateRoutes.AGREEMENTS} element={<AgreementPage />} />
               <Route path={PrivateRoutes.POSTS} element={<PostPage />} />
               <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
+              <Route path={`${PrivateRoutes.TEAMS}/:id`} element={<TeamPage />} />
             </Route>
           </RoutesWithNotFound>
         </BrowserRouter>

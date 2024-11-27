@@ -3,7 +3,7 @@ import { RootLayout } from '@/layouts'
 
 export default function PqrsPage() {
   return (
-    <RootLayout title='Pqrs' withBreadcrumb>
+    <RootLayout title='PQRS' withBreadcrumb>
       <PqrsList />
     </RootLayout>
   )
