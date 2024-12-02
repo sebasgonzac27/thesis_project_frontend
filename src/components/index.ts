@@ -15,6 +15,7 @@ export { default as Loader } from './shared/Loader'
 export { default as Navbar } from './shared/Navbar'
 export { default as Sidebar } from './shared/Sidebar'
 export { default as TeamsList } from './teams/TeamsList'
+export { default as TeamInfo } from './teams/TeamInfo'
 
 // UI
 export * from './shared/Icon'
