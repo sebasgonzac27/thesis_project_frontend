@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -10,13 +10,14 @@ import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Agreement, Company } from '@/models'
+import { Agreement, Company, UserRole } from '@/models'
 import { agreementService, companyService } from '@/services'
 import useUserStore from '@/store/user'
 import { format } from '@formkit/tempo'
 import { X, ArrowUpDown } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import CompanyModal from './CompanyModal'
+import { useAppStore } from '@/store/app'
 
 type StatusFilter = 'all' | 'active' | 'inactive'
 type SortField = 'name' | 'company' | 'start_date' | 'end_date' | 'active'
@@ -43,7 +44,11 @@ const SortableHeader = ({ field, children, onSort }: SortableHeaderProps) => (
 export default function AgreementList() {
   const navigate = useNavigate()
   const { user } = useUserStore()
-  const isAdmin = user?.id === 1
+  const { role_selected } = useAppStore()
+
+  const isAdmin = useMemo(() => {
+    return [UserRole.ADMIN, UserRole.LEADER].includes(role_selected!)
+  }, [role_selected])
 
   const [agreements, setAgreements] = useState<Agreement[]>([])
   const [companies, setCompanies] = useState<Company[]>([])
