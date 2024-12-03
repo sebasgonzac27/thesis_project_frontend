@@ -6,6 +6,7 @@ import { sendMessage } from '@/services'
 import { AxiosError } from 'axios'
 import { ChatbotMessage } from './ChatbotMessage'
 import { ChatbotFastAction } from './ChatbotFastAction'
+import useUserStore from '@/store/user'
 
 export interface Message {
   text: string
@@ -42,6 +43,7 @@ const fastActions: FastAction[] = [
 ]
 
 export default function Chatbot() {
+  const { user } = useUserStore()
   const [messages, setMessages] = useState<Message[]>([])
   const [text, setText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -115,9 +117,13 @@ export default function Chatbot() {
           <div ref={messagesEndRef} />
         </div>
       ) : (
-        <div className='flex flex-1 flex-col justify-center items-center'>
+        <div className='flex flex-1 flex-col justify-center items-center gap-4'>
           <Icon name='BotMessageSquare' size={50} />
-          <div className='mt-6 md:mt-12 grid md:grid-cols-3 gap-4'>
+          <p className='hidden md:block max-w-3xl text-center text-lg'>
+            Hola <b>{user?.profile.first_name}</b>, para mí es un placer ayudarte. Selecciona una pregunta rápida o
+            escribe tu pregunta en el cajón de texto que está en la parte inferior.
+          </p>
+          <div className='grid md:grid-cols-3 gap-4'>
             {fastActions.map(({ text, iconName, iconColor }, index) => (
               <ChatbotFastAction
                 key={index}
