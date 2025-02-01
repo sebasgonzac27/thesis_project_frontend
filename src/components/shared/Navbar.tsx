@@ -2,6 +2,7 @@ import { ModeToggle } from '../ui/mode-toggle'
 import Icon from './Icon'
 import { Button } from '../ui/button'
 import { useDashboardStore } from '@/store/dashboard'
+import { CONFIG } from '@/config'
 
 export default function Navbar() {
   const { isOpen, toggleOpen } = useDashboardStore()
@@ -12,7 +13,7 @@ export default function Navbar() {
           <Icon name={isOpen ? 'X' : 'Menu'} />
         </Button>
       </div>
-      <span className='font-extrabold'>Nómadas Urbanos Colombia</span>
+      <span className='font-extrabold'>{CONFIG.APP_NAME}</span>
       <div className='justify-self-end w-fit'>
         <ModeToggle variant='ghost' />
       </div>
