@@ -1,5 +1,4 @@
-import { User } from './user'
-
+import { UserWithProfile } from './user'
 
 export enum FeedbackType {
   QUESTION = 'pregunta',
@@ -14,16 +13,16 @@ export enum FeedbackStatus {
 }
 
 export const FeedbackTypeColors = {
-  'pregunta': { bg: 'bg-blue-100', text: 'text-blue-800' },
-  'sugerencia': { bg: 'bg-green-100', text: 'text-green-800' },
-  'queja': { bg: 'bg-pink-100', text: 'text-pink-800' },
-};
+  pregunta: { bg: 'bg-blue-100', text: 'text-blue-800' },
+  sugerencia: { bg: 'bg-green-100', text: 'text-green-800' },
+  queja: { bg: 'bg-pink-100', text: 'text-pink-800' },
+}
 
 export const FeedbackStatusColors = {
-  'pendiente': { bg: 'bg-blue-100', text: 'text-blue-800' },
+  pendiente: { bg: 'bg-blue-100', text: 'text-blue-800' },
   'en revisión': { bg: 'bg-green-100', text: 'text-green-800' },
-  'resuelto': { bg: 'bg-pink-100', text: 'text-pink-800' },
-};
+  resuelto: { bg: 'bg-pink-100', text: 'text-pink-800' },
+}
 
 export interface Feedback {
   id?: number
@@ -37,7 +36,7 @@ export interface Feedback {
 }
 
 export type FeedbackWithDetails = Omit<Feedback, 'author_id'> & {
-  author: User
+  author: UserWithProfile
 }
 
 export interface FeedbackAnswer {
@@ -50,6 +49,6 @@ export interface FeedbackAnswer {
 }
 
 export type FeedbackAnswerWithDetails = Omit<FeedbackAnswer, 'author_id' | 'feedback_id'> & {
-  author: User
+  author: UserWithProfile
   feedback: FeedbackWithDetails
 }

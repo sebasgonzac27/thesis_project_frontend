@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Icon from '../shared/Icon'
 import ProfileMotorcycleCard from './ProfileMotorcycleCard'
-import { Motorcycle, User, UserRole } from '@/models'
+import { Motorcycle, UserWithProfile, UserRole } from '@/models'
 import { ProfileAddMotorcycle } from './ProfileAddMotorcycle'
 import { Button } from '../ui/button'
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert'
@@ -10,7 +10,7 @@ import useUserStore from '@/store/user'
 import { useAppStore } from '@/store/app'
 
 interface Props {
-  user: User
+  user: UserWithProfile
 }
 
 export default function ProfileMotorcycles({ user }: Readonly<Props>) {

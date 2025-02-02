@@ -1,11 +1,10 @@
 import { Location } from './location'
 import { Team } from './team'
-import { User } from './user'
-
+import { UserWithProfile } from './user'
 
 export interface CalendarDay {
-  date: Date;
-  isCurrentMonth: boolean;
+  date: Date
+  isCurrentMonth: boolean
 }
 
 export enum EventType {
@@ -19,14 +18,14 @@ export enum EventType {
 }
 
 export const eventTypeColors = {
-  'rodada': { bg: 'bg-blue-100', text: 'text-blue-800' },
+  rodada: { bg: 'bg-blue-100', text: 'text-blue-800' },
   'reunión informativa': { bg: 'bg-green-100', text: 'text-green-800' },
   'reunión social': { bg: 'bg-pink-100', text: 'text-pink-800' },
   'evento de caridad': { bg: 'bg-red-100', text: 'text-red-800' },
-  'exhibición': { bg: 'bg-yellow-100', text: 'text-yellow-800' },
-  'competición': { bg: 'bg-purple-100', text: 'text-purple-800' },
-  'educacional': { bg: 'bg-teal-100', text: 'text-teal-800' },
-};
+  exhibición: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+  competición: { bg: 'bg-purple-100', text: 'text-purple-800' },
+  educacional: { bg: 'bg-teal-100', text: 'text-teal-800' },
+}
 
 export interface Event {
   id?: number
@@ -44,9 +43,9 @@ export interface Event {
 
 export type EventWithDetails = Omit<Event, 'location_id' | 'organizer_id' | 'team_id'> & {
   location: Location
-  organizer: User
+  organizer: UserWithProfile
   team: Team
- }
+}
 
 export interface Participation {
   attended: boolean

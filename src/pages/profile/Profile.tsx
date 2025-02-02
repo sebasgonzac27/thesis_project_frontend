@@ -5,13 +5,13 @@ import { RootLayout } from '@/layouts'
 import useUserStore from '@/store/user'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { User } from '@/models'
+import { UserWithProfile } from '@/models'
 import { getUser } from '@/services'
 
 export default function ProfilePage() {
   const { user } = useUserStore()
   const { id } = useParams()
-  const [userProfile, setUserProfile] = useState<User>(user!)
+  const [userProfile, setUserProfile] = useState<UserWithProfile>(user!)
   const [isMyProfile, setIsMyProfile] = useState(false)
 
   useEffect(() => {

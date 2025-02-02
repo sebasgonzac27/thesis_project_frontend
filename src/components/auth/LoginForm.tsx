@@ -20,7 +20,7 @@ import { z } from 'zod'
 import { setCookie } from 'typescript-cookie'
 import { loginSchema } from '@/schemas'
 import { login } from '@/services'
-import { User } from '@/models'
+import { UserWithProfile } from '@/models'
 import { initializeUser } from '@/utils'
 import { PrivateRoutes, PublicRoutes } from '@/routes'
 import { useShowPassword } from '@/hooks'
@@ -62,7 +62,7 @@ export default function LoginForm() {
       setCookie('refresh_token', refresh_token)
 
       const user = await initializeUser()
-      setUser(user as User)
+      setUser(user as UserWithProfile)
       navigate(`/${PrivateRoutes.HOME}`)
     } catch (error) {
       if (error instanceof AxiosError) {
