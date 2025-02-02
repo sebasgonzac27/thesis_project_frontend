@@ -1,14 +1,30 @@
-import { Motorcycle, User } from '@/models'
+import { RequestParams } from '@/interfaces/request-params'
+import { Response } from '@/interfaces/response'
+import { Motorcycle, UserBase, UserWithProfile } from '@/models'
 import { userSchema } from '@/schemas'
-import { api } from '@/utils'
+import { api, getParams } from '@/utils'
 import { z } from 'zod'
 
-export async function getUserMe(): Promise<User> {
+export async function getUserMe(): Promise<UserWithProfile> {
   const { data } = await api.get('/users/me')
   return data
 }
 
-export async function getUser(id: number): Promise<User> {
+export async function getUsers(inputParams: Partial<RequestParams> = {}): Promise<Response<UserWithProfile[]>> {
+  const queryString = getParams(inputParams)
+  const { data } = await api.get<Response<UserBase[]>>(`/users${queryString}`)
+
+  const usersWithProfiles = await Promise.all(
+    data.data.map(async user => {
+      const { profile } = await getUser(user.id)
+      return { ...user, profile }
+    }),
+  )
+
+  return { data: usersWithProfiles, pagination: data.pagination }
+}
+
+export async function getUser(id: number): Promise<UserWithProfile> {
   const { data } = await api.get(`/users/${id}`)
   return data
 }
@@ -23,7 +39,7 @@ export async function getUserMotorcycles(id: number): Promise<Motorcycle[]> {
   return data
 }
 
-export async function updateUser(id: number, user: z.infer<typeof userSchema>): Promise<User> {
+export async function updateUser(id: number, user: z.infer<typeof userSchema>): Promise<UserWithProfile> {
   const { data } = await api.put(`/users/${id}`, user)
   return data
 }

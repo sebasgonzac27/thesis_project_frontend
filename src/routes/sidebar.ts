@@ -24,7 +24,7 @@ export const SIDEBAR_ROUTES: Route[] = [
   },
   {
     name: 'Usuarios',
-    path: '/users',
+    path: `/${PrivateRoutes.USERS}`,
     icon: 'Users',
     roles: [UserRole.ADMIN, UserRole.LEADER],
   },

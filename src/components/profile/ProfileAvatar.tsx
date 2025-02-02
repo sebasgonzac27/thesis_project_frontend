@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { getAvatar } from '@/utils'
-import { User } from '@/models'
+import { UserWithProfile } from '@/models'
 import Icon from '../shared/Icon'
 import { getMembershipCard } from '@/services'
 import { toast } from 'sonner'
@@ -8,7 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from '../ui/button'
 
 interface Props {
-  user: User
+  user: UserWithProfile
 }
 
 export default function ProfileAvatar({ user }: Readonly<Props>) {

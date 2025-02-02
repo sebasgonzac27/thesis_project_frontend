@@ -16,6 +16,7 @@ export { default as Navbar } from './shared/Navbar'
 export { default as Sidebar } from './shared/Sidebar'
 export { default as TeamInfo } from './teams/TeamInfo'
 export { default as TeamsList } from './teams/TeamsList'
+export { default as UsersList } from './users/UsersList'
 
 // UI
 export * from './shared/Icon'

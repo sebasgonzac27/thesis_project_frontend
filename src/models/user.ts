@@ -1,11 +1,5 @@
-export interface User {
-  id: number
-  email: string
-  role_id: UserRole
-  status: UserStatus
+export interface UserWithProfile extends UserBase {
   profile: UserProfile
-  created_at: Date
-  updated_at: Date
 }
 
 export interface UserProfile {
@@ -20,6 +14,15 @@ export interface UserProfile {
   genre: string
   photo: null
   team_id: number
+}
+
+export interface UserBase {
+  id: number
+  email: string
+  role_id: UserRole
+  status: UserStatus
+  created_at: Date
+  updated_at: Date
 }
 
 export enum UserRole {

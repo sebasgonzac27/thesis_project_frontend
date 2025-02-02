@@ -15,4 +15,5 @@ export const PrivateRoutes = {
   PQRS: 'pqrs',
   AGREEMENTS: 'agreements',
   POSTS: 'posts',
+  USERS: 'users',
 }

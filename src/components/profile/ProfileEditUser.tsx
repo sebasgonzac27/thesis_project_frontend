@@ -1,4 +1,4 @@
-import { Team, User, UserRole, UserStatus } from '@/models'
+import { Team, UserWithProfile, UserRole, UserStatus } from '@/models'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -15,10 +15,10 @@ import { toast } from 'sonner'
 import { useAppStore } from '@/store/app'
 
 interface Props {
-  user: User
+  user: UserWithProfile
   isOpen: boolean
   setOpen: (open: boolean) => void
-  setUpdatedUser: (user: User) => void
+  setUpdatedUser: (user: UserWithProfile) => void
 }
 
 export function ProfileEditUser({ user, isOpen, setOpen, setUpdatedUser }: Readonly<Props>) {

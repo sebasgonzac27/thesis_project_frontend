@@ -1,5 +1,4 @@
-import { User } from './user'
-
+import { UserWithProfile } from './user'
 
 export enum ReactionType {
   Like = 'me gusta',
@@ -12,17 +11,17 @@ export enum PostType {
 }
 
 export const tagColors: { [key: string]: string } = {
-  'Eventos': 'bg-blue-100 text-blue-800 hover:bg-blue-200',
-  'Mantenimiento': 'bg-purple-100 text-purple-800 hover:bg-purple-200',
-  'Equipamiento': 'bg-green-100 text-green-800 hover:bg-green-200',
-  'Rutas': 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200',
-  'Seguridad': 'bg-red-100 text-red-800 hover:bg-red-200',
-  'Recomendaciones': 'bg-pink-100 text-pink-800 hover:bg-pink-200',
-  'Novedades': 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200',
-  'Ofertas': 'bg-teal-100 text-teal-800 hover:bg-teal-200',
-  'Comunidad': 'bg-blue-100 text-blue-800 hover:bg-blue-200',
-  'Reglamento': 'bg-purple-100 text-purple-800 hover:bg-purple-200',
-};
+  Eventos: 'bg-blue-100 text-blue-800 hover:bg-blue-200',
+  Mantenimiento: 'bg-purple-100 text-purple-800 hover:bg-purple-200',
+  Equipamiento: 'bg-green-100 text-green-800 hover:bg-green-200',
+  Rutas: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200',
+  Seguridad: 'bg-red-100 text-red-800 hover:bg-red-200',
+  Recomendaciones: 'bg-pink-100 text-pink-800 hover:bg-pink-200',
+  Novedades: 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200',
+  Ofertas: 'bg-teal-100 text-teal-800 hover:bg-teal-200',
+  Comunidad: 'bg-blue-100 text-blue-800 hover:bg-blue-200',
+  Reglamento: 'bg-purple-100 text-purple-800 hover:bg-purple-200',
+}
 
 export interface Tag {
   id?: number
@@ -40,7 +39,7 @@ export interface Post {
   created_at: Date
 }
 export type PostWithDetails = Omit<Post, 'author_id'> & {
-  author: User
+  author: UserWithProfile
 }
 
 export interface Comment {
@@ -53,7 +52,7 @@ export interface Comment {
   created_at: Date
 }
 export type CommentWithDetails = Omit<Comment, 'author_id' | 'post_id' | 'parent_id'> & {
-  author: User
+  author: UserWithProfile
   post: PostWithDetails
   parent: CommentWithDetails | null
 }
@@ -65,6 +64,6 @@ export interface Reaction {
   comment_id: number
 }
 export type ReactionWithDetails = Omit<Reaction, 'author_id' | 'comment_id'> & {
-  author: User
+  author: UserWithProfile
   comment: CommentWithDetails
 }

@@ -1,10 +1,11 @@
 import { BrowserRouter, Navigate, Route } from 'react-router-dom'
 import { PrivateRoutes, PublicRoutes } from '@/routes'
-import { AuthGuard } from '@/guards'
+import { AuthGuard, RoleGuard } from '@/guards'
 import { Suspense, lazy } from 'react'
 import { RoutesWithNotFound } from '@/utils'
 import { ThemeProvider, Toaster } from '@/components'
 import LoaderSuspense from '@/pages/LoaderSuspense'
+import { UserRole } from './models'
 
 const LoginPage = lazy(() => import('@/pages/auth/Login'))
 const RegisterPage = lazy(() => import('@/pages/auth/Register'))
@@ -20,6 +21,7 @@ const EventsPage = lazy(() => import('@/pages/events/Events'))
 const PqrsPage = lazy(() => import('@/pages/pqrs/Pqrs'))
 const AgreementPage = lazy(() => import('@/pages/agreements/Agreements'))
 const PostPage = lazy(() => import('@/pages/posts/Posts'))
+const UsersPage = lazy(() => import('@/pages/users/Users'))
 
 function App() {
   return (
@@ -48,6 +50,9 @@ function App() {
               <Route path={PrivateRoutes.POSTS} element={<PostPage />} />
               <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               <Route path={`${PrivateRoutes.TEAMS}/:id`} element={<TeamPage />} />
+              <Route element={<RoleGuard roles={[UserRole.ADMIN, UserRole.LEADER]} />}>
+                <Route path={PrivateRoutes.USERS} element={<UsersPage />} />
+              </Route>
             </Route>
           </RoutesWithNotFound>
         </BrowserRouter>

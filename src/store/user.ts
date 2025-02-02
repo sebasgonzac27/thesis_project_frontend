@@ -1,11 +1,11 @@
-import { User } from '@/models'
+import { UserWithProfile } from '@/models'
 import { initializeUser } from '@/utils'
 import { create } from 'zustand'
 
 interface UserStore {
-  user: User | null
-  setUser: (user: User) => void
-  updateUser: (user: User) => void
+  user: UserWithProfile | null
+  setUser: (user: UserWithProfile) => void
+  updateUser: (user: UserWithProfile) => void
   deleteUser: () => void
   isSameUser: (id: number) => boolean
 }

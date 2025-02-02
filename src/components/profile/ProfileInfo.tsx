@@ -2,15 +2,15 @@ import Icon from '../shared/Icon'
 import { formatDate } from '@/utils'
 import { getLocation, getTeam } from '@/services'
 import { useEffect, useMemo, useState } from 'react'
-import { User, UserRole } from '@/models'
+import { UserWithProfile, UserRole } from '@/models'
 import { Button } from '../ui/button'
 import { ProfileEditUser } from './ProfileEditUser'
 import useUserStore from '@/store/user'
 import { useAppStore } from '@/store/app'
 
 interface Props {
-  user: User
-  setUpdatedUser: (user: User) => void
+  user: UserWithProfile
+  setUpdatedUser: (user: UserWithProfile) => void
 }
 
 export default function ProfileInfo({ user, setUpdatedUser }: Readonly<Props>) {
