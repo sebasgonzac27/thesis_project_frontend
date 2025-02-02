@@ -16,9 +16,5 @@ export default function TeamPage() {
     })()
   }, [id])
 
-  return (
-    <RootLayout>
-      <TeamInfo team={team}></TeamInfo>
-    </RootLayout>
-  )
+  return <RootLayout title={team?.name}>{team && <TeamInfo team={team} />}</RootLayout>
 }

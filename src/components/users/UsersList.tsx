@@ -10,6 +10,7 @@ import { PrivateRoutes } from '@/routes'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Alert } from '../ui/alert'
+import { Badge } from '../ui/badge'
 
 const ROLES = {
   1: 'Administrador',
@@ -42,7 +43,11 @@ const SortableHeader = ({ field, children, onSort }: SortableHeaderProps) => (
   </TableHead>
 )
 
-export default function UsersList() {
+interface Props {
+  team_id?: number
+}
+
+export default function UsersList({ team_id = undefined }: Readonly<Props>) {
   const [users, setUsers] = useState<UserWithProfile[]>([])
   const [filteredUsers, setFilteredUsers] = useState<UserWithProfile[]>([])
   const [search, setSearch] = useState('')
@@ -68,8 +73,9 @@ export default function UsersList() {
     }
 
     fetchUsers().then(fetchUsers => {
-      setUsers(fetchUsers.data)
-      setFilteredUsers(fetchUsers.data)
+      const usersByTeam = team_id ? fetchUsers.data.filter(user => user.profile.team_id === team_id) : fetchUsers.data
+      setUsers(usersByTeam)
+      setFilteredUsers(usersByTeam)
     })
   }, [])
 
@@ -183,13 +189,7 @@ export default function UsersList() {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{ROLES[user.role_id]}</TableCell>
                   <TableCell>
-                    <span
-                      className={clsx('py-1 px-2 rounded-full text-white font-semibold', {
-                        'bg-success': user.status === 'activo',
-                        'bg-error': user.status === 'inactivo',
-                      })}>
-                      {STATUSES[user.status]}
-                    </span>
+                    <Badge variant={user.status === 'activo' ? 'default' : 'secondary'}>{STATUSES[user.status]}</Badge>
                   </TableCell>
                 </TableRow>
               ))}

@@ -50,7 +50,7 @@ function App() {
               <Route path={PrivateRoutes.POSTS} element={<PostPage />} />
               <Route path={PrivateRoutes.TEAMS} element={<TeamsPage />} />
               <Route path={`${PrivateRoutes.TEAMS}/:id`} element={<TeamPage />} />
-              <Route element={<RoleGuard roles={[UserRole.ADMIN, UserRole.LEADER]} />}>
+              <Route element={<RoleGuard roles={[UserRole.ADMIN]} />}>
                 <Route path={PrivateRoutes.USERS} element={<UsersPage />} />
               </Route>
             </Route>
